@@ -8,7 +8,7 @@ from Tela.telaSistema import TelaSistema
 
 class ControladorSistema:
   def __init__(self):
-    self.__tela_sistema = TelaSistema(self)
+    self.__tela_sistema = TelaSistema()
     self.__controlador_caracteristica = ControladorCaracteristica(self)
     self.__controlador_produto = ControladorProduto(self)
     self.__controlador_emprestimo = ControladorEmprestimo(self)

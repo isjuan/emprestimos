@@ -2,10 +2,11 @@ import PySimpleGUI as sg
 from Tela.telaAbstrata import TelaAbstrata
 
 class TelaSistema(TelaAbstrata):
-    def __init__(self):
+    def __init__(self, controlador):
         self.__window = None
         self.init_components()
-
+        super().__init__()
+        self.__controlador = controlador
 
     def tela_opcoes(self):
         self.init_components()

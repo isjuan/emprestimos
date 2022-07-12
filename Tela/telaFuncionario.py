@@ -1,10 +1,35 @@
 from Tela.telaAbstrata import TelaAbstrata
+import PySimpleGUI as sg
 
 class TelaFuncionario(TelaAbstrata):
   def __init__(self, controlador):
     super().__init__()
     self.__controlador = controlador
+    self.__window = None
+    self.init_components()
 
+  def init_components(self):
+    layout = [#[sg.Listbox(values=('funcionario 2', 'funcionario3'), size=(30, 3))],
+              [sg.Button('Cadastrar funcionário', key='1', size=(15, 2), button_color='#008015'),
+               sg.Button('Excluir funcinário', key='4', size=(15, 2), button_color='#d5001d')],
+              [sg.Button('Editar funcionário', key='3', size=(32, 2))],
+              [sg.Button('Listar funcionário', key='2', size=(32, 2))],
+              [sg.Button('<< Retornar <<', key='0', size=(15, 1), button_color='#500000')]
+              ]
+    self.__window = sg.Window('Funcionarios').Layout(layout)
+
+  def tela_opcoes(self):
+    self.init_components()
+    botao, valores = self.__window.Read()
+    if botao is None:
+      botao = 0
+    self.close()
+    return int(botao)
+
+  def close(self):
+    self.__window.close()
+
+  '''
   def tela_opcoes(self):
     print("-------- TELA FUNCIONARIOS ----------")
     print("Escolha a opcao")
@@ -16,6 +41,7 @@ class TelaFuncionario(TelaAbstrata):
     opcao = self.excecao_num_int("Escolha a opção:", [1,2,3,4,0])
     print("-------------------------------------")
     return opcao
+  '''
   
   def pega_dados_funcionario(self):
     print("-------- DADOS FUNCIONARIO ----------")

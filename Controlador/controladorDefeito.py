@@ -18,7 +18,7 @@ class ControladorDefeito:
     else:
       self.__tela_defeito.mostra_mensagem("Não há defeitos cadastrados!")
 
-  def pega_defeito_codigo(self, codigo: int):
+  def pega_defeito_codigo(self, codigo: str):
     for defeito in self.__defeitos:
       if(defeito.codigo == codigo):
         return defeito
@@ -31,14 +31,14 @@ class ControladorDefeito:
     codigo = dados_defeito["codigo"]
     defeito = Defeito(titulo, descricao, codigo)
     if isinstance(defeito, Defeito):
-      self.__defeitos.append(defeito)
+      self.defeitos.append(defeito)
 
   def alterar_titulo(self):
     codigo = self.__tela_defeito.seleciona_defeito()
     defeito = self.pega_defeito_codigo(codigo)
     if isinstance(defeito, Defeito) and defeito in self.__defeitos:
       novo_titulo = self.__tela_defeito.pega_dados_titulo()
-      defeito.titulo(novo_titulo)
+      defeito.titulo = novo_titulo
     else:
       self.__tela_defeito.mostra_mensagem("Dados Inválidos!!! Por favor repita a operação com dados válidos: Defeito cadastrado no sistema e título válido!")
 
@@ -47,7 +47,7 @@ class ControladorDefeito:
     defeito = self.pega_defeito_codigo(codigo)
     if isinstance(defeito, Defeito) and defeito in self.__defeitos:
       nova_descricao = self.__tela_defeito.pega_dados_descricao()
-      defeito.descricao(nova_descricao)
+      defeito.descricao = nova_descricao
     else:
       self.__tela_defeito.mostra_mensagem("Dados Inválidos!!! Por favor repita a operação com dados válidos: Defeito cadastrado no sistema e descricao válida!")
 

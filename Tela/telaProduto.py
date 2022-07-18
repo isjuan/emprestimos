@@ -53,13 +53,14 @@ class TelaProduto(TelaAbstrata):
 
   def pega_dados_nova_caracteristica(self):
     print("-------- INSIRA OS DADOS DA CARACTERÍSTICA ----------")
-    valor = input("Valor: ")
+    valor = str(input("Valor: "))
     descricao = input("Descrição: ")
-    codigo = input("Codigo: ")
+    codigo = str(input("Codigo: "))
     if isinstance(valor, str) and isinstance(descricao, str) and isinstance(codigo, str):
       return {"valor": valor, "descricao": descricao, "codigo": codigo}
     else:
       self.mostra_mensagem("Entradas inválidas, por favor repita a operação!")
+      return None
 
   def pega_caracteristica_no_produto(self):
     print("-------- INDIQUE A CARACTERÍSTICA DO PRODUTO ----------")
@@ -69,9 +70,9 @@ class TelaProduto(TelaAbstrata):
 
   def pega_codigo_defeito(self):
     print("-------- INDIQUE O CÓDIGO DO DEFEITO ----------")
-    codigo = input("Código do defeito: ")
+    codigo = str(input("Código do defeito: "))
 
-    return {"codigo": codigo}
+    return codigo
 
   def mostra_defeitos(self, defeito):
     print("Título: ", defeito.titulo)

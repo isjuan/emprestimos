@@ -21,11 +21,11 @@ class Defeito:
 
   @titulo.setter
   def titulo(self, titulo):
-    self.titulo = titulo
+    self.__titulo = titulo
 
   @descricao.setter
-  def descricao(self, titulo):
-    self.titulo = titulo
+  def descricao(self, descricao):
+    self.__descricao = descricao
 
   @codigo.setter
   def codigo (self, codigo: str):

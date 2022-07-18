@@ -33,8 +33,8 @@ class TelaCaracteristica(TelaAbstrata):
 
   def seleciona_caracteristica(self):
     codigo = input("Código da característica: ")
-    return codigo
+    return str(codigo)
 
   def seleciona_produto(self):
     numero_serie = input("Número de série que deseja selecionar: ")
-    return numero_serie
+    return int(numero_serie)

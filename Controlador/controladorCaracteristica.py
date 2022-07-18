@@ -12,12 +12,17 @@ class ControladorCaracteristica:
   def caracteristicas(self):
     return self.__caracteristicas
 
-  def pega_caracteristica_codigo(self, codigo: int):
+  def pega_caracteristica_codigo(self, codigo: str):
     for caracteristica in self.__caracteristicas:
       if(caracteristica.codigo == codigo):
-          return caracteristica
-      else:
-        self.__tela_caracteristica.mostra_mensagem("ESTA CARACTERÍSTICA NÃO EXISTE!!!")
+        return caracteristica
+    return None
+
+  def pega_caracteristica_no_produto(self, codigo: str, produto: Produto):
+    for caracteristica in produto.caracteristicas:
+      if(caracteristica.codigo == codigo):
+        return caracteristica
+    return None
 
   def alterar_valor(self):
     codigo = self.__tela_caracteristica.seleciona_caracteristica()
@@ -29,10 +34,11 @@ class ControladorCaracteristica:
         try:
           if produto is not None:
             try:
-              if caracteristica in produto.__caracteristicas:
+              caracteristica_no_produto = self.pega_caracteristica_no_produto(codigo, produto)
+              if caracteristica_no_produto is not None:
                 novo_valor = self.__tela_caracteristica.pega_dados_valor()
-                caracteristica.__valor = novo_valor
-                self.__tela_caracteristica.mostra_mensagem("Valor da característica alterado")
+                caracteristica.valor = novo_valor
+                self.__tela_caracteristica.mostra_mensagem("VALOR ALTERADO!")
             except:
               self.__tela_caracteristica.mostra_mensagem("ESTE PRODUTO NÃO POSSUI ESSA CARACTERÍSTICA!!!")
         except:
@@ -45,15 +51,16 @@ class ControladorCaracteristica:
     numero_serie = self.__tela_caracteristica.seleciona_produto()
     caracteristica = self.pega_caracteristica_codigo(codigo)
     try:
-      if caracteristica in self.__caracteristicas:
+      if caracteristica is not None:
         produto = self.__controlador_sistema.controlador_produto.pega_produto_numero_serie(numero_serie)
         try:
-          if produto in self.__controlador_sistema.controlador_produto.produtos:
+          if produto is not None:
             try:
-              if caracteristica in produto.__caracteristicas:
+              caracteristica_no_produto = self.pega_caracteristica_no_produto(codigo, produto)
+              if caracteristica_no_produto is not None:
                 nova_descricao = self.__tela_caracteristica.pega_dados_descricao()
                 caracteristica.descricao = nova_descricao
-                self.__tela_caracteristica.mostra_mensagem("Descrição da característica alterada")
+                self.__tela_caracteristica.mostra_mensagem("DESCRIÇÃO ALTERADA!")
             except:
               self.__tela_caracteristica.mostra_mensagem("!!! ESTE PRODUTO NÃO POSSUI ESSA CARACTERÍSTICA !!!")
         except:
@@ -66,15 +73,16 @@ class ControladorCaracteristica:
     numero_serie = self.__tela_caracteristica.seleciona_produto()
     caracteristica = self.pega_caracteristica_codigo(codigo)
     try:
-      if caracteristica in self.__caracteristicas:
+      if caracteristica is not None:
         produto = self.__controlador_sistema.controlador_produto.pega_produto_numero_serie(numero_serie)
         try:
-          if produto in self.__controlador_sistema.controlador_produto.produtos:
+          if produto is not None:
             try:
-              if caracteristica in produto.__caracteristicas:
+              caracteristica_no_produto = self.pega_caracteristica_no_produto(codigo, produto)
+              if caracteristica_no_produto is not None:
                 novo_codigo = self.__tela_caracteristica.pega_dados_codigo()
                 caracteristica.codigo = novo_codigo
-                self.__tela_caracteristica.mostra_mensagem("Codigo da característica alterado")
+                self.__tela_caracteristica.mostra_mensagem("CÓDIGO ALTERADO!")
             except:
               self.__tela_caracteristica.mostra_mensagem("!!! ESTE PRODUTO NÃO POSSUI ESSA CARACTERÍSTICA !!!")
         except:

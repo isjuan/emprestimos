@@ -1,5 +1,4 @@
 from Tela.telaProduto import TelaProduto
-from Entidade.defeito import Defeito
 from Entidade.produto import Produto
 from Entidade.caracteristica import Caracteristica
 
@@ -74,58 +73,76 @@ class ControladorProduto:
       for produto in self.__produtos_estocados:
         self.__tela_produto.mostra_produto({"nome_produto": produto.nome_produto, "marca": produto.marca, "modelo": produto.modelo, "numero_serie":produto.numero_serie})
     else:
-      self.__tela_produto.mostra_mensagem("Não há produtos em estoque!")
+      self.__tela_produto.mostra_mensagem("!!! NÃO HÁ PRODUTOS EM ESTOQUE !!!")
 
   def listar_produtos_emprestados(self):
     if len(self.__produtos_emprestados) > 0:
       for produto in self.__produtos_emprestados:
-        self.__tela_produto.mostra_produto({"nome_produto": produto.nome_produto, "marca": produto.marca, "modelo": produto.modelo, "numero_serie":produto.numero_serie})
+         self.__tela_produto.mostra_produto({"nome_produto": produto.nome_produto, "marca": produto.marca, "modelo": produto.modelo, "numero_serie":produto.numero_serie})
     else:
-      self.__tela_produto.mostra_mensagem("Não há produtos emprestados.")
+      self.__tela_produto.mostra_mensagem("NÃO HÁ PRODUTOS EMPRESTADOS!.")
 
   def marcar_defeito(self):
     numero_serie = self.__tela_produto.seleciona_produto()
     produto = self.pega_produto_numero_serie(numero_serie)
-    codigo = self.__tela_produto.pega_codigo_defeito()
-    defeito = self.__controlador_sistema.controlador_defeito.pega_defeito_codigo(codigo)
-    if isinstance(defeito, Defeito) and isinstance(produto, Produto):
-      self.produtos[produto].defeito.append(defeito)
-    else:
-      self.__tela_produto.mostra_mensagem("Parâmetros inválidos, repita a operação com parâmetros válidos: Defeito cadastrado e Produto cadastrado")
+    try:
+      if produto is not None:
+        codigo = self.__tela_produto.pega_codigo_defeito()
+        defeito = self.__controlador_sistema.controlador_defeito.pega_defeito_codigo(codigo)
+        try:
+          if defeito is not None:
+            produto.defeitos.append(defeito)
+            self.__tela_produto.mostra_mensagem("DEFEITO MARCADO NO PRODUTO!")
+        except:
+          self.__tela_produto.mostra_mensagem("!!! DEFEITO NÃO CADASTRADO !!!")
+    except:
+      self.__tela_produto.mostra_mensagem("!!! PRODUTO NÃO ENCONTRADO !!!")
 
   def listar_defeitos(self):
     numero_serie = self.__tela_produto.seleciona_produto()
     produto = self.pega_produto_numero_serie(numero_serie)
-    
-    if len(produto.defeitos) > 0:
-      for defeito in produto.defeitos:
-        self.__tela_produto.mostra_defeitos(defeito)
-    else:
-      self.__tela_produto.mostra_mensagem("O PRODUTO NÃO POSSUI DEFEITOS!")
+    try:
+      if len(produto.defeitos) > 0:
+        for defeito in produto.defeitos:
+          self.__tela_produto.mostra_defeitos(defeito)
+    except:
+      self.__tela_produto.mostra_mensagem("!!! O PRODUTO NÃO POSSUI DEFEITOS!!!")
 
   def consertar_produto(self):
     numero_serie = self.__tela_produto.seleciona_produto()
     produto = self.pega_produto_numero_serie(numero_serie)
-    codigo = self.__tela_produto.pega_codigo_defeito()
-    defeito = self.__controlador_sistema.controlador_defeito.pega_defeito_codigo(codigo)
-    if defeito is not None:
-      if defeito in produto.defeitos:
-        produto.defeitos.remove(defeito)
-      else:
-        self.__tela_produto.mostra_mensagem("O PRODUTO NÃO TEM ESSE DEFEITO!!!")
-    else:
-      self.__tela_produto.mostra_mensagem("!!!!! DEFEITO NÃO EXISTENTE !!!")
+    try:
+      if produto is not None:
+        codigo = self.__tela_produto.pega_codigo_defeito()
+        defeito = self.__controlador_sistema.controlador_defeito.pega_defeito_codigo(codigo)
+        try:
+          if defeito is not None:
+            try:
+              if defeito in produto.defeitos:
+                produto.defeitos.remove(defeito)
+                self.__tela_produto.mostra_mensagem("PRODUTO CONSERTADO!")
+            except:
+              self.__tela_produto.mostra_mensagem("!!! O PRODUTO NÃO TEM ESSE DEFEITO !!!")
+        except:
+          self.__tela_produto.mostra_mensagem("!!! DEFEITO NÃO CADASTRADO !!!")
+    except:
+      self.__tela_produto.mostra_mensagem("!!! PRODUTO NÃO ENCONTRADO !!!")
 
   def incluir_caracteristica(self):
     numero_serie = self.__tela_produto.seleciona_produto()
     produto = self.pega_produto_numero_serie(numero_serie)
     dados_caracteristica = self.__tela_produto.pega_dados_nova_caracteristica()
-    valor = dados_caracteristica["valor"]
-    descricao = dados_caracteristica["descricao"]
-    codigo = dados_caracteristica["codigo"]
-    caracteristica = Caracteristica(valor, descricao, codigo)
-    produto.caracteristicas.append(caracteristica)
-    self.__controlador_sistema.controlador_caracteristica.caracteristicas.append(caracteristica)
+    try:
+      if dados_caracteristica is not None:
+        valor = dados_caracteristica["valor"]
+        descricao = dados_caracteristica["descricao"]
+        codigo = dados_caracteristica["codigo"]
+        caracteristica = Caracteristica(valor, descricao, codigo)
+        produto.caracteristicas.append(caracteristica)
+        self.__tela_produto.mostra_mensagem("CARACTERÍSTICA INCLUÍDA!")
+        self.__controlador_sistema.controlador_caracteristica.caracteristicas.append(caracteristica)
+    except:
+      self.__tela_produto.mostra_mensagem("!!! DADOS INVÁLIDOS, POR REFAÇA A OPERAÇÃO COM DADOS VÁLIDOS!!!")
 
   def alterar_caracteristicas(self):
     self.__controlador_sistema.controlador_caracteristica.abre_tela()

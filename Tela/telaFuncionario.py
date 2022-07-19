@@ -13,7 +13,7 @@ class TelaFuncionario(TelaAbstrata):
               [sg.Button('Cadastrar funcionário', key='1', size=(15, 2), button_color='#008015'),
                sg.Button('Excluir funcinário', key='4', size=(15, 2), button_color='#d5001d')],
               [sg.Button('Editar funcionário', key='3', size=(32, 2))],
-              [sg.Button('Listar funcionário', key='2', size=(32, 2))],
+              [sg.Button('Listar funcionários', key='2', size=(32, 2))],
               [sg.Button('<< Retornar <<', key='0', size=(15, 1), button_color='#500000')]
               ]
     self.__window = sg.Window('Funcionarios').Layout(layout)
@@ -42,8 +42,29 @@ class TelaFuncionario(TelaAbstrata):
     print("-------------------------------------")
     return opcao
   '''
-  
   def pega_dados_funcionario(self):
+    layout = [[sg.Text('Nome:', size=(8, 1)), sg.InputText('', key='nome')],
+              [sg.Text('Matrícula:', size=(8, 1)), sg.InputText('', key='matricula')],
+              [sg.Cancel('<< Retornar <<', button_color='#500000'), sg.Submit('Cadastrar', button_color='#008000')]
+              ]
+    self.__window = sg.Window('Cadastrar funcionario').Layout(layout)
+
+    while True:
+      botao, valor = self.open()
+      nome = valor['nome']
+      matricula = self.excecao_tipo_int(valor['matricula'], int)
+
+      if nome != '' and isinstance(matricula, int):
+        self.close()
+        return {"nome": nome, "matricula": matricula}
+      # matricula = valor['matricula']
+
+  def seleciona_funcionario(self):
+    matricula = input('Matricula: ')
+    matricula = self.excecao_tipo_int("Matricula: ", int) # matricula = input("Matricula do funcionário: ")
+    return matricula
+
+  def old_pega_dados_funcionario(self):
     print("-------- DADOS FUNCIONARIO ----------")
     nome = input("Nome: ")
     matricula = self.excecao_tipo_int("Matricula: ", int) #input("Matricula: ")
@@ -54,6 +75,11 @@ class TelaFuncionario(TelaAbstrata):
     print("MATRICULA DO FUNCIONARIO: ", dados_funcionario["matricula"])
     print("------------------------------")
 
-  def seleciona_funcionario(self):
+  def seleciona_funcionario_old(self):
+    matricula = input('Matricula: ')
     matricula = self.excecao_tipo_int("Matricula: ", int) # matricula = input("Matricula do funcionário: ")
     return matricula
+
+  def open(self):
+    botao, valor = self.__window.Read()
+    return botao, valor

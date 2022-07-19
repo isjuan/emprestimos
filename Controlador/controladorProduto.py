@@ -9,7 +9,6 @@ class ControladorProduto:
     self.__produtos_estocados = []
     self.__controlador_sistema = controlador_sistema
     self.__tela_produto = TelaProduto(self)
-    self.__caracteristicas = []
 
   @property #função usada pelo sistema
   def produtos(self):

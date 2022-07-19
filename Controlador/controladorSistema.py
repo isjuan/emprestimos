@@ -56,7 +56,7 @@ class ControladorSistema:
     if len(self.__controlador_funcionario.funcionarios) > 0 and len(self.__controlador_produto.produtos) > 0:
       self.__controlador_emprestimo.abre_tela()
     else:
-      self.__tela_sistema.mostra_mensagem("Nenhum funcionário e/ou produto cadastrado(s)!!!")
+      self.__tela_sistema.mostra_mensagem("Erro!","Nenhum funcionário e/ou produto cadastrado(s)!!!")
 
   def cadastrar_defeito(self):
     self.__controlador_defeito.abre_tela()

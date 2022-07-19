@@ -38,13 +38,13 @@ class ControladorCaracteristica:
               if caracteristica_no_produto is not None:
                 novo_valor = self.__tela_caracteristica.pega_dados_valor()
                 caracteristica.valor = novo_valor
-                self.__tela_caracteristica.mostra_mensagem("VALOR ALTERADO!")
+                self.__tela_caracteristica.mostra_mensagem("Valor Alterado!", ("Valor da caracteristica alterado com sucesso! /n Valor: " + str(caracteristica.valor)))
             except:
-              self.__tela_caracteristica.mostra_mensagem("ESTE PRODUTO NÃO POSSUI ESSA CARACTERÍSTICA!!!")
+              self.__tela_caracteristica.mostra_mensagem("ERRO!","!!! ESTE PRODUTO NÃO POSSUI ESSA CARACTERÍSTICA !!!")
         except:
-          self.__tela_caracteristica.mostra_mensagem("ESTE PRODUTO NÃO EXISTE!!!")
+          self.__tela_caracteristica.mostra_mensagem("ERRO!","!!! ESTE PRODUTO NÃO EXISTE !!!")
     except:
-      self.__tela_caracteristica.mostra_mensagem("ESTA CARACTERÍSTICA NÃO EXISTE!!!")
+      self.__tela_caracteristica.mostra_mensagem("ERRO!","!!! ESTA CARACTERÍSTICA NÃO EXISTE !!!")
 
   def alterar_descricao(self):
     codigo = self.__tela_caracteristica.seleciona_caracteristica()
@@ -60,13 +60,13 @@ class ControladorCaracteristica:
               if caracteristica_no_produto is not None:
                 nova_descricao = self.__tela_caracteristica.pega_dados_descricao()
                 caracteristica.descricao = nova_descricao
-                self.__tela_caracteristica.mostra_mensagem("DESCRIÇÃO ALTERADA!")
+                self.__tela_caracteristica.mostra_mensagem("DESCRIÇÃO ALTERADA!", ("Descrição da caracteristica alterada com sucesso! /n Descrição: " + str(caracteristica.descricao)))
             except:
-              self.__tela_caracteristica.mostra_mensagem("!!! ESTE PRODUTO NÃO POSSUI ESSA CARACTERÍSTICA !!!")
+              self.__tela_caracteristica.mostra_mensagem("ERRO!","!!! ESTE PRODUTO NÃO POSSUI ESSA CARACTERÍSTICA !!!")
         except:
-          self.__tela_caracteristica.mostra_mensagem("!!! ESTE PRODUTO NÃO EXISTE !!!")
+          self.__tela_caracteristica.mostra_mensagem("ERRO!","!!! ESTE PRODUTO NÃO EXISTE !!!")
     except:
-      self.__tela_caracteristica.mostra_mensagem("!!! ESTA CARACTERÍSTICA NÃO EXISTE !!!")
+      self.__tela_caracteristica.mostra_mensagem("ERRO!","!!! ESTA CARACTERÍSTICA NÃO EXISTE !!!")
 
   def alterar_codigo(self):
     codigo = self.__tela_caracteristica.seleciona_caracteristica()
@@ -82,13 +82,13 @@ class ControladorCaracteristica:
               if caracteristica_no_produto is not None:
                 novo_codigo = self.__tela_caracteristica.pega_dados_codigo()
                 caracteristica.codigo = novo_codigo
-                self.__tela_caracteristica.mostra_mensagem("CÓDIGO ALTERADO!")
+                self.__tela_caracteristica.mostra_mensagem("CÓDIGO ALTERADO!", ("Código da caracteristica alterado com sucesso! /n Código: " + str(caracteristica.codigo)))
             except:
-              self.__tela_caracteristica.mostra_mensagem("!!! ESTE PRODUTO NÃO POSSUI ESSA CARACTERÍSTICA !!!")
+              self.__tela_caracteristica.mostra_mensagem("ERRO!","!!! ESTE PRODUTO NÃO POSSUI ESSA CARACTERÍSTICA !!!")
         except:
-          self.__tela_caracteristica.mostra_mensagem("!!! ESTE PRODUTO NÃO EXISTE !!!")
+          self.__tela_caracteristica.mostra_mensagem("ERRO!","!!! ESTE PRODUTO NÃO EXISTE !!!")
     except:
-      self.__tela_caracteristica.mostra_mensagem("!!! ESTA CARACTERÍSTICA NÃO EXISTE !!!")
+      self.__tela_caracteristica.mostra_mensagem("ERRO!","!!! ESTA CARACTERÍSTICA NÃO EXISTE !!!")
 
   def retornar(self):
     self.__controlador_sistema.controlador_produto.abre_tela()

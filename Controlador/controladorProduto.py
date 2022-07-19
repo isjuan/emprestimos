@@ -44,7 +44,7 @@ class ControladorProduto:
         if produto.numero_serie == dados_produto["numero_serie"]:
           raise EOFError
     except EOFError:
-      self.__tela_produto.mostra_mensagem("!!! PRODUTO JÁ EXISTE !!!")
+      self.__tela_produto.mostra_mensagem("Erro!","PRODUTO JÁ EXISTE !!!")
     else:
       produto = Produto(dados_produto["nome_produto"], dados_produto["marca"], dados_produto["modelo"], dados_produto["numero_serie"])
       self.__produtos.append(produto)
@@ -64,23 +64,23 @@ class ControladorProduto:
       produto.marca = marca
       produto.modelo = modelo
       produto.numero_serie = numero_serie
-      self.__tela_produto.mostra_mensagem(("PRODUTO ALTERADO, NUMERO DE SÉRIE: " + str(produto.numero_serie)))
+      self.__tela_produto.mostra_mensagem("PRODUTO ALTERADO!", ("NUMERO DE SÉRIE: " + str(produto.numero_serie)))
     else:
-      self.__tela_produto.mostra_mensagem("!!! PRODUTO NÃO EXISTENTE !!!")
+      self.__tela_produto.mostra_mensagem("Erro!","PRODUTO NÃO EXISTENTE !!!")
 
   def listar_produtos_estocados(self):
     if len(self.__produtos_estocados) > 0:
       for produto in self.__produtos_estocados:
         self.__tela_produto.mostra_produto({"nome_produto": produto.nome_produto, "marca": produto.marca, "modelo": produto.modelo, "numero_serie":produto.numero_serie})
     else:
-      self.__tela_produto.mostra_mensagem("!!! NÃO HÁ PRODUTOS EM ESTOQUE !!!")
+      self.__tela_produto.mostra_mensagem("Aviso!","!!! NÃO HÁ PRODUTOS EM ESTOQUE !!!")
 
   def listar_produtos_emprestados(self):
     if len(self.__produtos_emprestados) > 0:
       for produto in self.__produtos_emprestados:
          self.__tela_produto.mostra_produto({"nome_produto": produto.nome_produto, "marca": produto.marca, "modelo": produto.modelo, "numero_serie":produto.numero_serie})
     else:
-      self.__tela_produto.mostra_mensagem("NÃO HÁ PRODUTOS EMPRESTADOS!.")
+      self.__tela_produto.mostra_mensagem("Aviso!","NÃO HÁ PRODUTOS EMPRESTADOS!.")
 
   def marcar_defeito(self):
     numero_serie = self.__tela_produto.seleciona_produto()
@@ -92,11 +92,11 @@ class ControladorProduto:
         try:
           if defeito is not None:
             produto.defeitos.append(defeito)
-            self.__tela_produto.mostra_mensagem("DEFEITO MARCADO NO PRODUTO!")
+            self.__tela_produto.mostra_mensagem("DEFEITO MARCADO NO PRODUTO!",("Defeito marcado no produto! /n Produto Nº serie: " + str(produto.numero_serie) + "/n Defeito: " + str(defeito.titulo)))
         except:
-          self.__tela_produto.mostra_mensagem("!!! DEFEITO NÃO CADASTRADO !!!")
+          self.__tela_produto.mostra_mensagem("Erro!","!!! DEFEITO NÃO CADASTRADO !!!")
     except:
-      self.__tela_produto.mostra_mensagem("!!! PRODUTO NÃO ENCONTRADO !!!")
+      self.__tela_produto.mostra_mensagem("Erro!","!!! PRODUTO NÃO ENCONTRADO !!!")
 
   def listar_defeitos(self):
     numero_serie = self.__tela_produto.seleciona_produto()
@@ -106,7 +106,7 @@ class ControladorProduto:
         for defeito in produto.defeitos:
           self.__tela_produto.mostra_defeitos(defeito)
     except:
-      self.__tela_produto.mostra_mensagem("!!! O PRODUTO NÃO POSSUI DEFEITOS!!!")
+      self.__tela_produto.mostra_mensagem("Erro!","!!! O PRODUTO NÃO POSSUI DEFEITOS!!!")
 
   def consertar_produto(self):
     numero_serie = self.__tela_produto.seleciona_produto()
@@ -120,13 +120,13 @@ class ControladorProduto:
             try:
               if defeito in produto.defeitos:
                 produto.defeitos.remove(defeito)
-                self.__tela_produto.mostra_mensagem("PRODUTO CONSERTADO!")
+                self.__tela_produto.mostra_mensagem("PRODUTO CONSERTADO!", ("Produto cosertado com sucesso! /n Produto Nº serie:" + str(produto.numero_serie)))
             except:
-              self.__tela_produto.mostra_mensagem("!!! O PRODUTO NÃO TEM ESSE DEFEITO !!!")
+              self.__tela_produto.mostra_mensagem("Erro!","!!! O PRODUTO NÃO TEM ESSE DEFEITO !!!")
         except:
-          self.__tela_produto.mostra_mensagem("!!! DEFEITO NÃO CADASTRADO !!!")
+          self.__tela_produto.mostra_mensagem("Erro!","!!! DEFEITO NÃO CADASTRADO !!!")
     except:
-      self.__tela_produto.mostra_mensagem("!!! PRODUTO NÃO ENCONTRADO !!!")
+      self.__tela_produto.mostra_mensagem("Erro!","!!! PRODUTO NÃO ENCONTRADO !!!")
 
   def incluir_caracteristica(self):
     numero_serie = self.__tela_produto.seleciona_produto()
@@ -139,10 +139,10 @@ class ControladorProduto:
         codigo = dados_caracteristica["codigo"]
         caracteristica = Caracteristica(valor, descricao, codigo)
         produto.caracteristicas.append(caracteristica)
-        self.__tela_produto.mostra_mensagem("CARACTERÍSTICA INCLUÍDA!")
+        self.__tela_produto.mostra_mensagem("CARACTERÍSTICA INCLUÍDA!",("Característica inclusa no produto. /n Produto N° serie: " + str(produto.numero_serie)))
         self.__controlador_sistema.controlador_caracteristica.caracteristicas.append(caracteristica)
     except:
-      self.__tela_produto.mostra_mensagem("!!! DADOS INVÁLIDOS, POR REFAÇA A OPERAÇÃO COM DADOS VÁLIDOS!!!")
+      self.__tela_produto.mostra_mensagem("Erro!","!!! DADOS INVÁLIDOS, POR REFAÇA A OPERAÇÃO COM DADOS VÁLIDOS!!!")
 
   def alterar_caracteristicas(self):
     self.__controlador_sistema.controlador_caracteristica.abre_tela()
@@ -155,7 +155,7 @@ class ControladorProduto:
       for caracteristica in produto.caracteristicas:
         self.__tela_produto.mostra_caracteristicas(caracteristica)
     else:
-      self.__tela_produto.mostra_mensagem("O PRODUTO NÃO POSSUI CARACTERÍSTICAS DEFINIDAS!")
+      self.__tela_produto.mostra_mensagem("Erro!","O PRODUTO NÃO POSSUI CARACTERÍSTICAS DEFINIDAS!")
 
   def excluir_caracteristca(self):
     numero_serie = self.__tela_produto.seleciona_produto()
@@ -167,21 +167,21 @@ class ControladorProduto:
         produto.caracteristicas.remove(caracteristica)
         self.__controlador_sistema.controlador_caracteristica.caracteristicas.remove(caracteristica)
       else:
-        self.__tela_produto.mostra_mensagem("!!! O PRODUTO NÃO TEM ESSA CARACTERÍSTICA !!!")
+        self.__tela_produto.mostra_mensagem("Erro!","!!! O PRODUTO NÃO TEM ESSA CARACTERÍSTICA !!!")
     else:
-      self.__tela_produto.mostra_mensagem("!!! CARACTERÍSTICA NÃO EXISTENTE !!!")
+      self.__tela_produto.mostra_mensagem("Erro!","!!! CARACTERÍSTICA NÃO EXISTENTE !!!")
 
   def excluir_produto(self):
     numero_serie = self.__tela_produto.seleciona_produto()
     produto = self.pega_produto_numero_serie(numero_serie)
     if produto in self.__produtos_emprestados:
-      self.__tela_produto.mostra_mensagem("Não é possível excluir produtos emprestados!")
+      self.__tela_produto.mostra_mensagem("Erro!","Não é possível excluir produtos emprestados!")
     elif(produto is not None):
       self.__produtos.remove(produto)
       self.__produtos_estocados.remove(produto)
-      self.__tela_produto.mostra_mensagem("PRODUTO EXCLUÍDO!")
+      self.__tela_produto.mostra_mensagem("PRODUTO EXCLUÍDO!", ("Produto excluído com sucesso /n Produto nº serie: "+str(produto.numero_serie)))
     else:
-      self.__tela_produto.mostra_mensagem("!!! PRODUTO NÃO EXISTENTE !!!")
+      self.__tela_produto.mostra_mensagem("Erro!","!!! PRODUTO NÃO EXISTENTE !!!")
 
   def retornar(self):
     self.__controlador_sistema.abre_tela()

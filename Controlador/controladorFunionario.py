@@ -34,7 +34,7 @@ class ControladorFuncionario:
         if funcionario.matricula == dados_funcionario["matricula"]:
           raise EOFError
     except EOFError:
-      self.__tela_funcionario.mostra_mensagem("!!! Matrícula já existe!!!")
+      self.__tela_funcionario.mostra_mensagem("Erro!","!!! Matrícula já existe!!!")
     novo_funcionario = Funcionario(dados_funcionario["nome"], dados_funcionario["matricula"])
     self.__funcionarios.append(novo_funcionario)    
 
@@ -52,7 +52,7 @@ class ControladorFuncionario:
       novos_dados_funcionario = self.__tela_funcionario.pega_dados_funcionario()
       if novos_dados_funcionario["matricula"] == matricula_funcionario:
         funcionario.nome = novos_dados_funcionario["nome"]
-        self.__tela_funcionario.mostra_mensagem("!!! Nome alterado !!!")
+        self.__tela_funcionario.mostra_mensagem("Nome alterado!","Nome do funcionario alterado com sucesso!")
       else:
         try:
           for funcionario in self.__funcionarios:
@@ -61,11 +61,11 @@ class ControladorFuncionario:
           funcionario.nome = novos_dados_funcionario["nome"]
           funcionario.matricula = novos_dados_funcionario["matricula"]
         except EOFError:
-          self.__tela_funcionario.mostra_mensagem("!!! Matrícula já utilizada por outro funcionário!!!")
+          self.__tela_funcionario.mostra_mensagem("Erro!","!!! Matrícula já utilizada por outro funcionário!!!")
       #funcionario.matricula = novos_dados_funcionario["matricula"]
       self.lista_funcionarios()
     else:
-      self.__tela_funcionario.mostra_mensagem("!!! FUNCIONARIO NÃO EXISTENTE !!!")
+      self.__tela_funcionario.mostra_mensagem("Erro!","!!! FUNCIONARIO NÃO EXISTENTE !!!")
 
   def excluir_funcionario(self):
     self.lista_funcionarios()
@@ -76,7 +76,7 @@ class ControladorFuncionario:
       self.__funcionarios.remove(funcionario)
       self.lista_funcionarios()
     else:
-      self.__tela_funcionario.mostra_mensagem("!!!!! FUNCIONARIO NÃO EXISTENTE !!!")
+      self.__tela_funcionario.mostra_mensagem("Erro!","!!!!! FUNCIONARIO NÃO EXISTENTE !!!")
     
   def retornar(self):
     self.__controlador_sistema.abre_tela()

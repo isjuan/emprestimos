@@ -16,7 +16,7 @@ class ControladorDefeito:
       for defeito in self.__defeitos:
         self.__tela_defeito.mostra_defeito({"titulo": defeito.titulo, "descricao": defeito.descricao, "codigo": defeito.codigo})
     else:
-      self.__tela_defeito.mostra_mensagem("Não há defeitos cadastrados!")
+      self.__tela_defeito.mostra_mensagem("Aviso!","Não há defeitos cadastrados!")
 
   def pega_defeito_codigo(self, codigo: str):
     for defeito in self.__defeitos:
@@ -40,7 +40,7 @@ class ControladorDefeito:
       novo_titulo = self.__tela_defeito.pega_dados_titulo()
       defeito.titulo = novo_titulo
     else:
-      self.__tela_defeito.mostra_mensagem("Dados Inválidos!!! Por favor repita a operação com dados válidos: Defeito cadastrado no sistema e título válido!")
+      self.__tela_defeito.mostra_mensagem("Dados Inválidos!","Por favor repita a operação com dados válidos: Defeito cadastrado no sistema e título válido!")
 
   def alterar_descricao(self):
     codigo = self.__tela_defeito.seleciona_defeito()
@@ -49,7 +49,7 @@ class ControladorDefeito:
       nova_descricao = self.__tela_defeito.pega_dados_descricao()
       defeito.descricao = nova_descricao
     else:
-      self.__tela_defeito.mostra_mensagem("Dados Inválidos!!! Por favor repita a operação com dados válidos: Defeito cadastrado no sistema e descricao válida!")
+      self.__tela_defeito.mostra_mensagem("Dados Inválidos!","Por favor repita a operação com dados válidos: Defeito cadastrado no sistema e descricao válida!")
 
   def excluir_defeito(self):
     codigo = self.__tela_defeito.seleciona_defeito()
@@ -57,7 +57,7 @@ class ControladorDefeito:
     if isinstance(defeito, Defeito) and defeito in self.__defeitos:
       self.__defeitos.remove(defeito)
     else:
-      self.__tela_defeito.mostra_mensagem("Parâmetros inválidos, repita a operação com parâmetros válidos: Defeito cadastrado no sistema")
+      self.__tela_defeito.mostra_mensagem("Dados inválidos!","Por favor repita a operação com parâmetros válidos: Defeito cadastrado no sistema")
 
   def retornar(self):
     self.__controlador_sistema.abre_tela()

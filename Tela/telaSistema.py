@@ -29,7 +29,6 @@ class TelaSistema(TelaAbstrata):
                   ]
         self.__window = sg.Window('HOME').Layout(layout)
 
-
 ''' 
 from Tela.telaAbstrata import TelaAbstrata
 

@@ -1,3 +1,4 @@
+import PySimpleGUI as sg
 from Tela.telaAbstrata import TelaAbstrata
 
 class TelaCaracteristica(TelaAbstrata):

@@ -1,4 +1,6 @@
 from abc import ABC, abstractmethod
+from typing import List
+import PySimpleGUI as sg
 
 class TelaAbstrata(ABC):
   @abstractmethod
@@ -8,10 +10,10 @@ class TelaAbstrata(ABC):
   def mostra_opcoes(self):
     pass
 
-  def mostra_mensagem(self, msg):
-    print(msg)
+  def mostra_mensagem(self, titulo: str, msg: str):
+    sg.popup(titulo, msg)
 
-  def excecao_num_int(self, mensagem: str, inteiros_validos: []):
+  def excecao_num_int(self, mensagem: str, inteiros_validos: List):
     while True:
       valor_lido = input(mensagem)
       try:

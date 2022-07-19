@@ -23,7 +23,7 @@ class ControladorEmprestimo:
       for emprestimo in self.emprestimos:
         self.__tela_emprestimo.mostra_emprestimo(emprestimo)
     else:
-      self.__tela_emprestimo.mostra_mensagem("NÃO HÁ EMPRÉSTIMOS REALIZADOS!!!")
+      self.__tela_emprestimo.mostra_mensagem("Erro!","NÃO HÁ EMPRÉSTIMOS REALIZADOS!!!")
 
   def incluir_emprestimo(self):
     numero_serie = self.__tela_emprestimo.seleciona_produto()
@@ -40,9 +40,9 @@ class ControladorEmprestimo:
             self.__controlador_sistema.controlador_produto.produtos_emprestados.append(produto)
             self.__controlador_sistema.controlador_produto.produtos_estocados.remove(produto)
         except:
-            self.__tela_emprestimo.mostra_mensagem("!!! FUNCIONÁRIO NÃO EXISTENTE! INSIRA UMA MATRÍCULA VÁLIDA !!!")
+            self.__tela_emprestimo.mostra_mensagem("Erro!","!!! FUNCIONÁRIO NÃO EXISTENTE! INSIRA UMA MATRÍCULA VÁLIDA !!!")
     except:
-      self.__tela_emprestimo.mostra_mensagem("!!! PRODUTO NÃO EXISTENTE! INSIRA UM NÚMERO DE SÉRIE VÁLIDO !!!")
+      self.__tela_emprestimo.mostra_mensagem("Erro!","!!! PRODUTO NÃO EXISTENTE! INSIRA UM NÚMERO DE SÉRIE VÁLIDO !!!")
 
   def remover_emprestimo(self):
     codigo = self.__tela_emprestimo.seleciona_emprestimo()
@@ -54,7 +54,7 @@ class ControladorEmprestimo:
         self.__controlador_sistema.controlador_produto.produtos.append(produto)
         self.__controlador_sistema.controlador_produto.produtos_emprestados.remove(produto)
     except:
-      self.__tela_emprestimo.mostra_mensagem("!!! EMPRÉSTIMO NÃO EXISTENTE! INSIRA UM CÓDIGO VÁLIDO !!!")
+      self.__tela_emprestimo.mostra_mensagem("Erro!","EMPRÉSTIMO NÃO EXISTENTE! INSIRA UM CÓDIGO VÁLIDO!")
 
   def retornar(self):
     self.__controlador_sistema.abre_tela()
@@ -62,6 +62,7 @@ class ControladorEmprestimo:
   def abre_tela(self):
     lista_opcoes = {1: self.incluir_emprestimo, 2: self.remover_emprestimo, 3: self.lista_emprestimo, 0: self.retornar}
 
-    flag = True
-    while flag:
-      lista_opcoes[self.__tela_emprestimo.tela_opcoes()]()
+    while True:
+      opcao_escolhida = self.__tela_emprestimo.tela_opcoes()
+      funcao_escolhida = lista_opcoes[opcao_escolhida]
+      funcao_escolhida()

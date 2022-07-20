@@ -60,8 +60,20 @@ class TelaFuncionario(TelaAbstrata):
       # matricula = valor['matricula']
 
   def seleciona_funcionario(self):
-    matricula = input('Matricula: ')
-    matricula = self.excecao_tipo_int("Matricula: ", int) # matricula = input("Matricula do funcionário: ")
+    # matricula = input('Matricula: ')
+    # matricula = self.excecao_tipo_int("Matricula: ", int) # matricula = input("Matricula do funcionário: ")
+
+    layout = [
+      [sg.Text('Qual matrícula deseja selecionar?', font=("Helvica", 9))],
+      [sg.Text('Matrícula:', size=(8, 1)), sg.InputText('', key='matricula')],
+      [sg.Cancel('<< Retornar <<', button_color='#500000'), sg.Submit('Selecionar', button_color='#008000')]
+    ]
+    self.__window = sg.Window('Seleciona funcionario').Layout(layout)
+
+    button, values = self.open()
+    matricula = self.excecao_tipo_int(values['matricula'], int)
+    self.close()
+
     return matricula
 
   def old_pega_dados_funcionario(self):
@@ -71,9 +83,17 @@ class TelaFuncionario(TelaAbstrata):
     return {"nome": nome, "matricula": matricula}
 
   def mostra_funcionario(self, dados_funcionario):
-    print("NOME DO FUNCIONARIO: ", dados_funcionario["nome"])
-    print("MATRICULA DO FUNCIONARIO: ", dados_funcionario["matricula"])
-    print("------------------------------")
+    # print("NOME DO FUNCIONARIO: ", dados_funcionario["nome"])
+    # print("MATRICULA DO FUNCIONARIO: ", dados_funcionario["matricula"])
+    # print("------------------------------")
+    listagem_funcionarios = ""
+    contador = 1
+    for dado in dados_funcionario:
+      listagem_funcionarios = listagem_funcionarios + str(contador) + '\n'
+      listagem_funcionarios = listagem_funcionarios + "FUNCIONÁRIO: " + dado["nome"] + '\n'
+      listagem_funcionarios = listagem_funcionarios + "MATRICULA: " + str(dado["matricula"]) + '\n\n'
+      contador += 1
+    sg.Popup('LISTA DE AMIGOS', listagem_funcionarios)
 
   def seleciona_funcionario_old(self):
     matricula = input('Matricula: ')

@@ -46,9 +46,16 @@ class ControladorFuncionario:
 
 
   def lista_funcionarios(self):
+    dados_funcionario = []
     for funcionario in self.__funcionarios:
-      self.__tela_funcionario.mostra_funcionario({"nome": funcionario.nome, "matricula": funcionario.matricula})  
-  
+      dados_funcionario.append({"nome": funcionario.nome, "matricula": funcionario.matricula})
+      # self.__tela_funcionario.mostra_funcionario({"nome": funcionario.nome, "matricula": funcionario.matricula}
+
+    if len(dados_funcionario) < 1:
+      self.__tela_funcionario.mostra_mensagem("lista vazia", "!!! Nenhum funcionário cadastrado!!!")
+    else:
+      self.__tela_funcionario.mostra_funcionario(dados_funcionario)
+
   def alterar_funcionario(self):
     
     self.lista_funcionarios()
@@ -82,6 +89,7 @@ class ControladorFuncionario:
 
     if funcionario is not None:
       self.__funcionarios.remove(funcionario)
+      self.__tela_funcionario.mostra_mensagem("funcionário removido","Funcionário removido. Lista de funcionários atualizada.")
       self.lista_funcionarios()
     else:
       self.__tela_funcionario.mostra_mensagem("Erro!","!!!!! FUNCIONARIO NÃO EXISTENTE !!!")

@@ -66,12 +66,35 @@ class TelaProduto(TelaAbstrata):
     opcao = self.excecao_num_int("Escolha a opção:", [1,2,3,4,5,6,7,8,9,10,11,12,0])
     return opcao
     """
+    def open(self):
+        botao, valor = self.__window.Read()
+        return botao, valor
 
     def close(self):
         self.__window.close()
 
-    # nome_produto: str, marca: str, modelo: str, numero_serie: int
     def pega_dados_produto(self):
+        layout = [[sg.Text('Nome do produto:', size=(15, 1)), sg.InputText('', key='nome_produto')],
+                  [sg.Text('Marca:', size=(15, 1)), sg.InputText('', key='marca')],
+                  [sg.Text('Modelo:', size=(15, 1)), sg.InputText('', key='modelo')],
+                  [sg.Text('Número de série:', size=(15, 1)), sg.InputText('', key='numero_serie')],
+                  [sg.Cancel('<< Retornar <<', button_color='#500000'), sg.Submit('Cadastrar', button_color='#008000')]
+                  ]
+        self.__window = sg.Window('CADASTRAR PRODUTO').Layout(layout)
+
+        while True:
+            botao, valor = self.open()
+            nome_produto = valor['nome_produto']
+            marca = valor['marca']
+            modelo = valor['modelo']
+            numero_serie = self.excecao_tipo_int(valor['numero_serie'], int)
+
+            if (nome_produto != '') and (marca != '') and (modelo != '') and isinstance(numero_serie, int):
+                self.close()
+                return {"nome_produto": nome_produto, "marca": marca, "modelo": modelo, "numero_serie": numero_serie}
+
+    # nome_produto: str, marca: str, modelo: str, numero_serie: int
+    def pega_dados_produto_old(self):
         print("-------- INSIRA OS DADOS DO PRODUTO ----------")
         nome_produto = input("Nome: ")
         marca = input("Marca: ")
@@ -80,6 +103,18 @@ class TelaProduto(TelaAbstrata):
         return {"nome_produto": nome_produto, "marca": marca, "modelo": modelo, "numero_serie": numero_serie}
 
     def mostra_produto(self, dados_produto):
+        listagem_produtos = ""
+        contador = 1
+        for dado in dados_produto:
+            listagem_produtos = listagem_produtos + str(contador) + '\n'
+            listagem_produtos = listagem_produtos + "Nome do Produto: " + dado["nome_produto"] + '\n'
+            listagem_produtos = listagem_produtos + "Marca do Produto: " + dado["marca"] + '\n'
+            listagem_produtos = listagem_produtos + "Modelo: " + dado["modelo"] + '\n'
+            listagem_produtos = listagem_produtos + "N° Série: " + str(dado["numero_serie"]) + '\n\n'
+            contador += 1
+        sg.Popup('LISTA DE PRODUTOS', listagem_produtos)
+
+    def mostra_produto_OLD(self, dados_produto):
         print("Nome do produto: ", dados_produto["nome_produto"])
         print("Marca do Produto: ", dados_produto["marca"])
         print("Modelo: ", dados_produto["modelo"])
@@ -87,14 +122,32 @@ class TelaProduto(TelaAbstrata):
         print("----------------------")
 
     def seleciona_caracteristica(self):
-        codigo = input("Código da caracteristica a ser selecionada: ")
+        # codigo = input("Código da caracteristica a ser selecionada: ")
+        layout = [
+            [sg.Text('Qual o código da caracteristica a ser selecionada?', font=("Helvica", 9))],
+            [sg.Text('Código:', size=(8, 1)), sg.InputText('', key='codigo')],
+            [sg.Cancel('<< Retornar <<', button_color='#500000'), sg.Submit('Selecionar', button_color='#008000')]
+        ]
+        self.__window = sg.Window('SELECIONE A CARACTERISTICA').Layout(layout)
+
+        button, values = self.open()
+        codigo = self.excecao_tipo_int(values['codigo'], int)
+        self.close()
         return codigo
 
+
     def mostra_caracteristicas(self, caracteristica):
-        print("Descrição: ", caracteristica.descricao)
-        print("Valor: ", caracteristica.valor)
-        print("Código: ", caracteristica.codigo)
-        print("----------------------")
+        # print("Descrição: ", caracteristica.descricao)
+        # print("Valor: ", caracteristica.valor)
+        # print("Código: ", caracteristica.codigo)
+        # print("----------------------")
+        caracteristicas = ""
+
+        caracteristicas = caracteristicas + "Descição: " + str(caracteristica.descricao) + '\n'
+        caracteristicas = caracteristicas + "Valor" + str(caracteristica.valor) + '\n'
+        caracteristicas = caracteristicas + "Código: " + str(caracteristica.codigo) + '\n\n'
+
+        sg.Popup('CARACTERISTICAS', caracteristicas)
 
     def pega_dados_nova_caracteristica(self):
         print("-------- INSIRA OS DADOS DA CARACTERÍSTICA ----------")
@@ -126,5 +179,17 @@ class TelaProduto(TelaAbstrata):
         print("----------------------")
 
     def seleciona_produto(self):
-        numero_serie = input("Número de série que deseja selecionar: ")
-        return int(numero_serie)
+        layout = [
+            [sg.Text('Qual o N°Série que deseja selecionar?', font=("Helvica", 9))],
+            [sg.Text('N°Série:', size=(8, 1)), sg.InputText('', key='numero_serie')],
+            [sg.Cancel('<< Retornar <<', button_color='#500000'), sg.Submit('Selecionar', button_color='#008000')]
+        ]
+        self.__window = sg.Window('SELECIONE O PRODUTO').Layout(layout)
+
+        button, values = self.open()
+        numero_serie = self.excecao_tipo_int(values['numero_serie'], int)
+        self.close()
+        return numero_serie
+
+        # numero_serie = input("Número de série que deseja selecionar: ")
+        # return int(numero_serie)

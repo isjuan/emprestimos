@@ -16,6 +16,7 @@ class TelaEmprestimo(TelaAbstrata):
 #
 #    opcao = self.excecao_num_int("Escolha a opção:", [1,2,3,0])
 #    return opcao
+
   def __init__(self, controlador):
     self.__window = None
     self.init_components()

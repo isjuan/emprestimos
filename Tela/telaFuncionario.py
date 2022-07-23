@@ -16,7 +16,7 @@ class TelaFuncionario(TelaAbstrata):
               [sg.Button('Listar funcionários', key='2', size=(32, 2))],
               [sg.Button('<< Retornar <<', key='0', size=(15, 1), button_color='#500000')]
               ]
-    self.__window = sg.Window('Funcionarios').Layout(layout)
+    self.__window = sg.Window('Funcionarios', element_justification='c').Layout(layout)
 
   def tela_opcoes(self):
     self.init_components()

@@ -31,6 +31,10 @@ class TelaEmprestimo(TelaAbstrata):
     self.close()
     return int(botao)
 
+  def open(self):
+    botao, valor = self.__window.Read()
+    return botao, valor
+
   def close(self):
     self.__window.Close()
 
@@ -43,9 +47,38 @@ class TelaEmprestimo(TelaAbstrata):
               ]
     self.__window = sg.Window('EMPRÉSTIMO').Layout(layout)
 
-  def pega_codigo_emprestimo(self):
-    print("-------- INSIRA O CÓDIGO DO EMPRÉSTIMO ----------")
-    codigo = input("Codigo do Empréstimo: ")
+  def pega_dados_emprestimo(self):
+    layout = [[sg.Text('Matrícula:', size=(10, 1)), sg.InputText('', key='matricula')],
+              [sg.Text('Nº de Série:', size=(10, 1)), sg.InputText('', key='numero_serie')],
+              [sg.Text('Codigo:', size=(10, 1)), sg.InputText('', key='codigo')],
+              [sg.Cancel('<< Retornar <<', button_color='#500000'), sg.Submit('Cadastrar', button_color='#008000')]
+              ]
+    self.__window = sg.Window('SELECIONAR EMPRÉSTIMO').Layout(layout)
+
+    while True:
+      botao, valor = self.open()
+      matricula = self.excecao_tipo_int(valor['matricula'], int)
+      numero_serie = self.excecao_tipo_int(valor['numero_serie'], int)
+      codigo = str(valor['codigo'])
+
+      if (matricula != '') and (numero_serie != '') and (codigo != '') and isinstance(numero_serie, int):
+        self.close()
+        return {'numero_serie': numero_serie, 'matricula': matricula, 'codigo': codigo}
+
+  # fazer aqui tratamento dos dados, caso a entrada seja diferente do esperado
+  def seleciona_emprestimo(self):
+#    codigo = input("Código do emprestimo que deseja selecionar: ")
+
+    layout = [[sg.Text('Qual empréstimo deseja selecionar?', font=("Helvica", 9))],
+              [sg.Text('Código:', size=(8, 1)), sg.InputText('', key='codigo')],
+              [sg.Cancel('<< Retornar <<', button_color='#500000'), sg.Submit('Selecionar', button_color='#008000')]
+              ]
+    self.__window = sg.Window('SELECIONA EMPRÉSTIMO').Layout(layout)
+
+    botao, valor = self.open()
+    codigo = str(valor['codigo'])
+    self.close()
+
     return codigo
 
   # fazer aqui tratamento dos dados, caso a entrada seja diferente do esperado
@@ -55,12 +88,12 @@ class TelaEmprestimo(TelaAbstrata):
     print("Nome do funcionário: ", emprestimo.funcionario.nome)
     print("Código de empréstimo: ", emprestimo.codigo)
     print("\n")
-  
-  # fazer aqui tratamento dos dados, caso a entrada seja diferente do esperado
-  def seleciona_emprestimo(self):
-    codigo = input("Código do emprestimo que deseja selecionar: ")
-    return codigo
 
+  def pega_codigo_emprestimo(self):
+    print("-------- INSIRA O CÓDIGO DO EMPRÉSTIMO ----------")
+    codigo = input("Codigo do Empréstimo: ")
+    return codigo
+  
   def seleciona_funcionario(self):
     #matricula = self.excecao_tipo_int("Matricula: ", int)
     matricula = input("Matricula do funcionário: ")

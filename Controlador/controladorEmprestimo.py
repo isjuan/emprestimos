@@ -26,15 +26,16 @@ class ControladorEmprestimo:
       self.__tela_emprestimo.mostra_mensagem("Erro!","NÃO HÁ EMPRÉSTIMOS REALIZADOS!!!")
 
   def incluir_emprestimo(self):
-    numero_serie = self.__tela_emprestimo.seleciona_produto()
+    dados_emprestimo = self.__tela_emprestimo.pega_dados_emprestimo()
+    numero_serie = dados_emprestimo['numero_serie']#self.__tela_emprestimo.seleciona_produto()
     produto = self.__controlador_sistema.controlador_produto.pega_produto_numero_serie(numero_serie)
     try:
       if produto is not None:
-        matricula = self.__tela_emprestimo.seleciona_funcionario()
+        matricula = dados_emprestimo['matricula']#self.__tela_emprestimo.seleciona_funcionario()
         funcionario = self.__controlador_sistema.controlador_funcionario.pega_funcionario_por_matricula(matricula)
         try:
           if funcionario is not None:
-            codigo = self.__tela_emprestimo.pega_codigo_emprestimo()
+            codigo = dados_emprestimo['codigo']#self.__tela_emprestimo.pega_codigo_emprestimo()
             emprestimo = Emprestimo(produto, funcionario, codigo)
             self.__emprestimos.append(emprestimo)
             self.__controlador_sistema.controlador_produto.produtos_emprestados.append(produto)

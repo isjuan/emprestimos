@@ -29,7 +29,6 @@ class ControladorFuncionario:
   
   def cadastrar_funcionario(self):
     dados_funcionario = self.__tela_funcionario.pega_dados_funcionario()
-
     try:
       for funcionario in self.funcionarios:
         if funcionario.matricula == dados_funcionario["matricula"]:
@@ -37,13 +36,9 @@ class ControladorFuncionario:
       novo_funcionario = Funcionario(dados_funcionario["nome"], dados_funcionario["matricula"])
       self.__funcionarios.append(novo_funcionario)
     except EOFError:
-
       self.__tela_funcionario.mostra_mensagem("Erro!","!!! Matrícula já existe!!!")
       novo_funcionario = Funcionario(dados_funcionario["nome"], dados_funcionario["matricula"])
       self.__funcionarios.append(novo_funcionario)
-
-      self.__tela_funcionario.mostra_mensagem("!!! Matrícula já existe!!!")
-
 
   def lista_funcionarios(self):
     dados_funcionario = []

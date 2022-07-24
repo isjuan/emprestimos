@@ -62,8 +62,9 @@ class TelaEmprestimo(TelaAbstrata):
     return codigo
 
   def seleciona_funcionario(self):
-    matricula = self.excecao_tipo_int("Matricula: ", int) # matricula = input("Matricula do funcionário: ")
-    return matricula
+    #matricula = self.excecao_tipo_int("Matricula: ", int)
+    matricula = input("Matricula do funcionário: ")
+    return int(matricula)
 
   def seleciona_produto(self):
     numero_serie = input("Número de série que deseja selecionar: ")

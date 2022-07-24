@@ -93,7 +93,7 @@ class TelaFuncionario(TelaAbstrata):
       listagem_funcionarios = listagem_funcionarios + "FUNCIONÁRIO: " + dado["nome"] + '\n'
       listagem_funcionarios = listagem_funcionarios + "MATRICULA: " + str(dado["matricula"]) + '\n\n'
       contador += 1
-    sg.Popup('LISTA DE AMIGOS', listagem_funcionarios)
+    sg.Popup('LISTA DE FUNCIONÁRIOS', listagem_funcionarios)
 
   def seleciona_funcionario_old(self):
     matricula = input('Matricula: ')

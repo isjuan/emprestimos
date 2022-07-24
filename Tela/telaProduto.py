@@ -150,6 +150,27 @@ class TelaProduto(TelaAbstrata):
         sg.Popup('CARACTERISTICAS', caracteristicas)
 
     def pega_dados_nova_caracteristica(self):
+        layout = [[sg.Text('Valor:', size=(15, 1)), sg.InputText('', key='valor')],
+                  [sg.Text('descricao:', size=(15, 1)), sg.InputText('', key='descricao')],
+                  [sg.Text('codigo:', size=(15, 1)), sg.InputText('', key='codigo')],
+                  [sg.Cancel('<< Retornar <<', button_color='#500000'), sg.Submit('Cadastrar', button_color='#008000')]
+                  ]
+        self.__window = sg.Window('CADASTRAR PRODUTO').Layout(layout)
+
+        while True:
+            botao, value = self.open()
+            valor = value['valor']
+            descricao = value['descricao']
+            codigo = value['codigo']
+
+            if (valor != '') and (descricao != '') and (codigo != ''):
+                self.close()
+                return {"valor": valor, "descricao": descricao, "codigo": codigo}
+            else:
+                self.mostra_mensagem("ERRO","Entradas inválidas, por favor repita a operação!")
+                return None
+
+    def pega_dados_nova_caracteristica_old(self):
         print("-------- INSIRA OS DADOS DA CARACTERÍSTICA ----------")
         valor = str(input("Valor: "))
         descricao = input("Descrição: ")
@@ -161,8 +182,19 @@ class TelaProduto(TelaAbstrata):
             return None
 
     def pega_caracteristica_no_produto(self):
-        print("-------- INDIQUE A CARACTERÍSTICA DO PRODUTO ----------")
-        codigo = input("Código da Característica: ")
+        layout = [
+            [sg.Text('INDIQUE A CARACTERÍSTICA DO PRODUTO', font=("Helvica", 9))],
+            [sg.Text('Código:', size=(8, 1)), sg.InputText('', key='codigo')],
+            [sg.Cancel('<< Retornar <<', button_color='#500000'), sg.Submit('Selecionar', button_color='#008000')]
+        ]
+        self.__window = sg.Window('SELECIONE A CARACTERISTICA').Layout(layout)
+
+        button, values = self.open()
+        codigo = values['codigo']
+        self.close()
+
+        # print("-------- INDIQUE A CARACTERÍSTICA DO PRODUTO ----------")
+        # codigo = input("Código da Característica: ")
 
         return {"codigo": codigo}
 

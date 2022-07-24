@@ -2,23 +2,49 @@ import PySimpleGUI as sg
 from Tela.telaAbstrata import TelaAbstrata
 
 class TelaDefeito(TelaAbstrata):
+#  def __init__(self, controlador):
+#    super().__init__()
+#    self.__controlador = controlador
+#
+#  def tela_opcoes(self):
+#    print("-------- DEFEITO ----------")
+#    print("Escolha a opcao")
+#    print("1 - Novo defeito")
+#    print("2 - Listar defeitos")
+#    print("3 - Alterar titulo")
+#    print("4 - Alterar descrição")
+#    print("5 - Excluir defeito")
+#    print("0 - Retornar")
+#
+#    opcao = self.excecao_num_int("Escolha a opção:", [1,2,3,4,5,0])
+#    return opcao
   def __init__(self, controlador):
+    self.__window = None
+    self.init_components()
     super().__init__()
     self.__controlador = controlador
-    #self.__tela_abstrata = TelaAbstrata()
 
   def tela_opcoes(self):
-    print("-------- DEFEITO ----------")
-    print("Escolha a opcao")
-    print("1 - Novo defeito")
-    print("2 - Listar defeitos")
-    print("3 - Alterar titulo")
-    print("4 - Alterar descrição")
-    print("5 - Excluir defeito")
-    print("0 - Retornar")
+    self.init_components()
+    botao, valores = self.__window.Read()
+    if botao is None:
+      botao = 0
+    self.close()
+    return int(botao)
 
-    opcao = self.excecao_num_int("Escolha a opção:", [1,2,3,4,5,0])
-    return opcao
+  def close(self):
+    self.__window.Close()
+
+  def init_components(self):
+    #sg.theme_previewer()
+    layout = [[sg.Button('Novo defeito', key='1', size=(20, 2), font=('Helvetica', 11))],
+              [sg.Button('Listar defeitos', key='2', size=(20, 2), font=('Helvetica', 11))],
+              [sg.Button('Alterar título', key='3', size=(20, 2), font=('Helvetica', 11))],
+              [sg.Button('Alterar descrição', key='4', size=(20, 2), font=('Helvetica', 11))],
+              [sg.Button('Excluir defeito', key='5', size=(20, 2), font=('Helvetica', 11))],
+              [sg.Button('Retornar', key='0', size=(20, 2), button_color='#500000', font=('Helvetica', 11))],
+              ]
+    self.__window = sg.Window('DEFEITOS').Layout(layout)
 
   def pega_dados_defeito(self):
     print("-------- NOVO DEFEITO ----------")

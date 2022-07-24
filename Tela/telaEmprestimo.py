@@ -41,7 +41,7 @@ class TelaEmprestimo(TelaAbstrata):
               [sg.Button('Listar Empréstimos', key='3', size=(20, 2), font=('Helvetica', 11))],
               [sg.Button('Retornar', key='0', size=(20, 2), button_color='#500000', font=('Helvetica', 11))],
               ]
-    self.__window = sg.Window('HOME').Layout(layout)
+    self.__window = sg.Window('EMPRÉSTIMO').Layout(layout)
 
   def pega_codigo_emprestimo(self):
     print("-------- INSIRA O CÓDIGO DO EMPRÉSTIMO ----------")

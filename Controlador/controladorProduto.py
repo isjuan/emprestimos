@@ -68,9 +68,11 @@ class ControladorProduto:
       self.__tela_produto.mostra_mensagem("Erro!","PRODUTO NÃO EXISTENTE !!!")
 
   def listar_produtos_estocados(self):
+    dados_produtos_estocados = []
     if len(self.__produtos_estocados) > 0:
       for produto in self.__produtos_estocados:
-        self.__tela_produto.mostra_produto({"nome_produto": produto.nome_produto, "marca": produto.marca, "modelo": produto.modelo, "numero_serie":produto.numero_serie})
+        dados_produtos_estocados.append({"nome_produto": produto.nome_produto, "marca": produto.marca, "modelo": produto.modelo, "numero_serie":produto.numero_serie})
+      self.__tela_produto.mostra_produto(dados_produtos_estocados)
     else:
       self.__tela_produto.mostra_mensagem("Aviso!","!!! NÃO HÁ PRODUTOS EM ESTOQUE !!!")
 

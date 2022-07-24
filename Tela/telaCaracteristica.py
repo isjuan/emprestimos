@@ -27,7 +27,7 @@ class TelaCaracteristica(TelaAbstrata):
     #sg.theme_previewer()
     layout = [[sg.Button('Alterar Valor', key='1', size=(20, 2), font=('Helvetica', 11))],
               [sg.Button('Alterar Descrição', key='2', size=(20, 2), font=('Helvetica', 11))],
-              [sg.Button('Alterar Código', key='3', size=(20, 2), font=('Helvetica', 11))],
+#              [sg.Button('Alterar Código', key='3', size=(20, 2), font=('Helvetica', 11))],
               [sg.Button('Retornar', key='0', size=(20, 2), button_color='#500000', font=('Helvetica', 11))],
               ]
     self.__window = sg.Window('CARACTERÍSTICA').Layout(layout)
@@ -44,15 +44,49 @@ class TelaCaracteristica(TelaAbstrata):
 #    return opcao
 
   def pega_dados_valor(self):
-    print("-------- NOVO VALOR ----------")
-    valor = input("Novo Valor: ")
-    return valor
+    layout = [[sg.Text('Selecione a característica e insira o novo valor', font=("Helvica", 9))],
+              [sg.Text('Nº Série:', size=(10, 1)), sg.InputText('', key='numero_serie')],
+              [sg.Text('Codigo:', size=(10, 1)), sg.InputText('', key='codigo')],
+              [sg.Text('Valor:', size=(10, 1)), sg.InputText('', key='valor')],
+              [sg.Cancel('<< Retornar <<', button_color='#500000'), sg.Submit('Aplicar', button_color='#008000')]
+              ]
+    self.__window = sg.Window('Alterar Descrição').Layout(layout)
+
+    while True:
+      botao, valores = self.open()
+      numero_serie = self.excecao_tipo_int(valores['numero_serie'], int)
+      valor = valores['valor']
+      codigo = str(valores['codigo'])
+
+      if ((numero_serie != '') and isinstance(numero_serie, int)) and (valor != '') and ((codigo != '') and isinstance(codigo, str)):
+        self.close()
+        return {"numero_serie": numero_serie, "valor": valor, "codigo": codigo}
+#    print("-------- NOVO VALOR ----------")
+#    valor = input("Novo Valor: ")
+#    return valor
 
   def pega_dados_descricao(self):
-    print("-------- NOVA DESCRIÇÃO ----------")
-    descricao = input("Nova Descrição: ")
-    return descricao
+    layout = [[sg.Text('Selecione a característica e insira a nova descrição', font=("Helvica", 9))],
+              [sg.Text('Nº Série:', size=(10, 1)), sg.InputText('', key='numero_serie')],
+              [sg.Text('Codigo:', size=(10, 1)), sg.InputText('', key='codigo')],
+              [sg.Text('Descrição:', size=(10, 1)), sg.InputText('', key='descricao')],
+              [sg.Cancel('<< Retornar <<', button_color='#500000'), sg.Submit('Aplicar', button_color='#008000')]
+              ]
+    self.__window = sg.Window('Alterar Descrição').Layout(layout)
 
+    while True:
+      botao, valores = self.open()
+      numero_serie = self.excecao_tipo_int(valores['numero_serie'], int)
+      descricao = str(valores['descricao'])
+      codigo = str(valores['codigo'])
+
+      if ((numero_serie != '') and isinstance(numero_serie, int)) and (descricao != '') and ((codigo != '') and isinstance(codigo, str)):
+        self.close()
+        return {"numero_serie": numero_serie, "descricao": descricao, "codigo": codigo}
+#    print("-------- NOVA DESCRIÇÃO ----------")
+#    descricao = input("Nova Descrição: ")
+#    return descricao
+#Funções antigas não utilizadas:
   def pega_dados_codigo(self):
     print("-------- NOVO CÓDIGO ----------")
     codigo = input("Novo Código: ")

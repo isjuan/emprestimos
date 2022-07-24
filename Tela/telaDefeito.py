@@ -137,7 +137,7 @@ class TelaDefeito(TelaAbstrata):
 #    descricao = input("Descricao: ")
 #    codigo = input("Codigo: ")
 #    return {"titulo": titulo, "descricao": descricao, "codigo": codigo}
-
+#Funções antigas não utilizadas:
   def pega_dados_codigo(self):
     print("-------- NOVO CÓDIGO ----------")
     codigo = input("Novo Código: ")

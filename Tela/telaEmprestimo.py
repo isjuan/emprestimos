@@ -89,6 +89,7 @@ class TelaEmprestimo(TelaAbstrata):
     print("Código de empréstimo: ", emprestimo.codigo)
     print("\n")
 
+#Funções antigas não utilizadas:
   def pega_codigo_emprestimo(self):
     print("-------- INSIRA O CÓDIGO DO EMPRÉSTIMO ----------")
     codigo = input("Codigo do Empréstimo: ")

@@ -16,6 +16,10 @@ class TelaCaracteristica(TelaAbstrata):
     self.close()
     return int(botao)
 
+  def open(self):
+    botao, valor = self.__window.Read()
+    return botao, valor
+
   def close(self):
     self.__window.Close()
 

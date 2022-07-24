@@ -32,6 +32,10 @@ class TelaDefeito(TelaAbstrata):
     self.close()
     return int(botao)
 
+  def open(self):
+    botao, valor = self.__window.Read()
+    return botao, valor
+
   def close(self):
     self.__window.Close()
 
@@ -46,31 +50,78 @@ class TelaDefeito(TelaAbstrata):
               ]
     self.__window = sg.Window('DEFEITOS').Layout(layout)
 
-  def pega_dados_defeito(self):
-    print("-------- NOVO DEFEITO ----------")
-    titulo = input("Titulo: ")
-    descricao = input("Descricao: ")
-    codigo = input("Codigo: ")
-    return {"titulo": titulo, "descricao": descricao, "codigo": codigo}
+  def pega_dados_defeito(self): #Mudar para adepas descrição/nome e código
+    layout = [[sg.Text('Título:', size=(10, 1)), sg.InputText('', key='titulo')],
+              [sg.Text('Descriço:', size=(10, 1)), sg.InputText('', key='descricao')],
+              [sg.Text('Codigo:', size=(10, 1)), sg.InputText('', key='codigo')],
+              [sg.Cancel('<< Retornar <<', button_color='#500000'), sg.Submit('Cadastrar', button_color='#008000')]
+              ]
+    self.__window = sg.Window('NOVO DEFEITO').Layout(layout)
+
+    while True:
+      botao, valor = self.open()
+      titulo = str(valor['titulo'])
+      descricao = str(valor['descricao'])
+      codigo = str(valor['codigo'])
+
+      if (titulo != '') and (descricao != '') and (codigo != '') and isinstance(codigo, str):
+        self.close()
+        return {"titulo": titulo, "descricao": descricao, "codigo": codigo}
 
   def pega_dados_titulo(self):
-    print("-------- NOVO TÍTULO ----------")
-    titulo = input("Titulo: ")
-    return titulo
+    layout = [[sg.Text('Selecione o defeito e insira o novo título', font=("Helvica", 9))],
+              [sg.Text('Codigo:', size=(10, 1)), sg.InputText('', key='codigo')],
+              [sg.Text('Título:', size=(10, 1)), sg.InputText('', key='titulo')],
+              [sg.Cancel('<< Retornar <<', button_color='#500000'), sg.Submit('Aplicar', button_color='#008000')]
+              ]
+    self.__window = sg.Window('Alterar Título').Layout(layout)
+
+    while True:
+      botao, valor = self.open()
+      titulo = str(valor['titulo'])
+      codigo = str(valor['codigo'])
+
+      if (titulo != '') and (codigo != '') and isinstance(codigo, str):
+        self.close()
+        return {"titulo": titulo, "codigo": codigo}
+#    print("-------- NOVO TÍTULO ----------")
+#    titulo = input("Titulo: ")
+#    return titulo
 
   def pega_dados_descricao(self):
-    print("-------- NOVA DESCRIÇÃO ----------")
-    descricao = input("Descricao: ")
-    return descricao
+    layout = [[sg.Text('Selecione o defeito e insira a nova descrição', font=("Helvica", 9))],
+              [sg.Text('Codigo:', size=(10, 1)), sg.InputText('', key='codigo')],
+              [sg.Text('Descrição:', size=(10, 1)), sg.InputText('', key='descricao')],
+              [sg.Cancel('<< Retornar <<', button_color='#500000'), sg.Submit('Aplicar', button_color='#008000')]
+              ]
+    self.__window = sg.Window('Alterar Descrição').Layout(layout)
 
-  def pega_dados_codigo(self):
-    print("-------- NOVO CÓDIGO ----------")
-    codigo = input("Novo Código: ")
-    return codigo
+    while True:
+      botao, valor = self.open()
+      descricao = str(valor['descricao'])
+      codigo = str(valor['codigo'])
+
+      if (descricao != '') and (codigo != '') and isinstance(codigo, str):
+        self.close()
+        return {"descricao": descricao, "codigo": codigo}
+#    print("-------- NOVA DESCRIÇÃO ----------")
+#    descricao = input("Descricao: ")
+#    return descricao
 
   def seleciona_defeito(self):
-    codigo = input("Código do Defeito: ")
+    layout = [[sg.Text('Qual defeito deseja selecionar?', font=("Helvica", 9))],
+              [sg.Text('Código:', size=(8, 1)), sg.InputText('', key='codigo')],
+              [sg.Cancel('<< Retornar <<', button_color='#500000'), sg.Submit('Selecionar', button_color='#008000')]
+              ]
+    self.__window = sg.Window('Seleciona Defeito').Layout(layout)
+
+    botao, valor = self.open()
+    codigo = str(valor['codigo'])
+    self.close()
+
     return codigo
+#    codigo = input("Código do Defeito: ")
+#    return codigo
 
   def mostra_defeito(self, dados_defeito):
     print("\n")
@@ -79,3 +130,15 @@ class TelaDefeito(TelaAbstrata):
     print("DESCRIÇÃO: ", dados_defeito["descricao"])
     print("CÓDIGO: ", dados_defeito["codigo"])
     print("\n")
+
+#  def pega_dados_defeito(self):
+#    print("-------- NOVO DEFEITO ----------")
+#    titulo = input("Titulo: ")
+#    descricao = input("Descricao: ")
+#    codigo = input("Codigo: ")
+#    return {"titulo": titulo, "descricao": descricao, "codigo": codigo}
+
+  def pega_dados_codigo(self):
+    print("-------- NOVO CÓDIGO ----------")
+    codigo = input("Novo Código: ")
+    return codigo

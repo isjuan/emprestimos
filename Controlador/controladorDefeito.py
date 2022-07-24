@@ -34,20 +34,18 @@ class ControladorDefeito:
       self.defeitos.append(defeito)
 
   def alterar_titulo(self):
-    codigo = self.__tela_defeito.seleciona_defeito()
-    defeito = self.pega_defeito_codigo(codigo)
+    dados = self.__tela_defeito.pega_dados_titulo()
+    defeito = self.pega_defeito_codigo(dados['codigo'])
     if isinstance(defeito, Defeito) and defeito in self.__defeitos:
-      novo_titulo = self.__tela_defeito.pega_dados_titulo()
-      defeito.titulo = novo_titulo
+      defeito.titulo = dados['titulo']
     else:
       self.__tela_defeito.mostra_mensagem("Dados Inválidos!","Por favor repita a operação com dados válidos: Defeito cadastrado no sistema e título válido!")
 
   def alterar_descricao(self):
-    codigo = self.__tela_defeito.seleciona_defeito()
-    defeito = self.pega_defeito_codigo(codigo)
+    dados = self.__tela_defeito.pega_dados_descricao()
+    defeito = self.pega_defeito_codigo(dados['codigo'])
     if isinstance(defeito, Defeito) and defeito in self.__defeitos:
-      nova_descricao = self.__tela_defeito.pega_dados_descricao()
-      defeito.descricao = nova_descricao
+      defeito.descricao = dados['descricao']
     else:
       self.__tela_defeito.mostra_mensagem("Dados Inválidos!","Por favor repita a operação com dados válidos: Defeito cadastrado no sistema e descricao válida!")
 

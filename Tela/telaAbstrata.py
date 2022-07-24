@@ -22,11 +22,11 @@ class TelaAbstrata(ABC):
           raise ValueError
         return inteiro
       except ValueError:
-        print("Opção inválida, digite uma das seguintes opções:", inteiros_validos)
+        self.mostra_mensagem("Aviso!",("Opção inválida, digite uma das seguintes opções:", inteiros_validos))
 
   def excecao_tipo_int(self, mensagem: str, tipo_var):
     try:
       resultado = int(mensagem)
       return resultado
     except Exception:
-      print("Tipo de caractere errado, digite um do tipo:", tipo_var)
+      self.mostra_mensagem("Aviso!",("Tipo de caractere errado, digite um do tipo:", tipo_var))

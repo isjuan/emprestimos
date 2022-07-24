@@ -25,8 +25,9 @@ class ControladorCaracteristica:
     return None
 
   def alterar_valor(self):
-    codigo = self.__tela_caracteristica.seleciona_caracteristica()
-    numero_serie = self.__tela_caracteristica.seleciona_produto()
+    dados = self.__tela_caracteristica.pega_dados_valor()
+    codigo = dados['codigo']
+    numero_serie = dados['numero_serie']
     caracteristica = self.pega_caracteristica_codigo(codigo)
     try:
       if caracteristica is not None:
@@ -36,7 +37,7 @@ class ControladorCaracteristica:
             try:
               caracteristica_no_produto = self.pega_caracteristica_no_produto(codigo, produto)
               if caracteristica_no_produto is not None:
-                novo_valor = self.__tela_caracteristica.pega_dados_valor()
+                novo_valor = dados['valor']
                 caracteristica.valor = novo_valor
                 self.__tela_caracteristica.mostra_mensagem("Valor Alterado!", ("Valor da caracteristica alterado com sucesso! /n Valor: " + str(caracteristica.valor)))
             except:
@@ -47,8 +48,10 @@ class ControladorCaracteristica:
       self.__tela_caracteristica.mostra_mensagem("ERRO!","!!! ESTA CARACTERÍSTICA NÃO EXISTE !!!")
 
   def alterar_descricao(self):
-    codigo = self.__tela_caracteristica.seleciona_caracteristica()
-    numero_serie = self.__tela_caracteristica.seleciona_produto()
+    dados = self.__tela_caracteristica.pega_dados_descricao()
+    codigo = dados['codigo']
+    numero_serie = dados['numero_serie']
+    nova_descricao = dados['descricao']
     caracteristica = self.pega_caracteristica_codigo(codigo)
     try:
       if caracteristica is not None:
@@ -58,7 +61,6 @@ class ControladorCaracteristica:
             try:
               caracteristica_no_produto = self.pega_caracteristica_no_produto(codigo, produto)
               if caracteristica_no_produto is not None:
-                nova_descricao = self.__tela_caracteristica.pega_dados_descricao()
                 caracteristica.descricao = nova_descricao
                 self.__tela_caracteristica.mostra_mensagem("DESCRIÇÃO ALTERADA!", ("Descrição da caracteristica alterada com sucesso! /n Descrição: " + str(caracteristica.descricao)))
             except:
@@ -94,7 +96,7 @@ class ControladorCaracteristica:
     self.__controlador_sistema.controlador_produto.abre_tela()
 
   def abre_tela(self):
-    lista_opcoes = {0: self.retornar,1: self.alterar_valor, 2: self.alterar_descricao, 3: self.alterar_codigo}
+    lista_opcoes = {0: self.retornar,1: self.alterar_valor, 2: self.alterar_descricao} #, 3: self.alterar_codigo}
     continua = True
     while continua:       
       lista_opcoes[self.__tela_caracteristica.tela_opcoes()]()

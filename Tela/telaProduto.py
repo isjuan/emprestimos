@@ -144,7 +144,7 @@ class TelaProduto(TelaAbstrata):
         caracteristicas = ""
 
         caracteristicas = caracteristicas + "Descição: " + str(caracteristica.descricao) + '\n'
-        caracteristicas = caracteristicas + "Valor" + str(caracteristica.valor) + '\n'
+        caracteristicas = caracteristicas + "Valor: " + str(caracteristica.valor) + '\n'
         caracteristicas = caracteristicas + "Código: " + str(caracteristica.codigo) + '\n\n'
 
         sg.Popup('CARACTERISTICAS', caracteristicas)

@@ -27,22 +27,12 @@ class TelaFuncionario(TelaAbstrata):
         self.close()
         return int(botao)
 
+    def open(self):
+        botao, valor = self.__window.Read()
+        return botao, valor
+
     def close(self):
         self.__window.close()
-
-    '''
-  def tela_opcoes(self):
-    print("-------- TELA FUNCIONARIOS ----------")
-    print("Escolha a opcao")
-    print("1 - Cadastrar funcionário")
-    print("2 - Listar funcionários")
-    print("3 - Editar Funcionário")
-    print("4 - Excluir funcionario")
-    print("0 - Retornar")
-    opcao = self.excecao_num_int("Escolha a opção:", [1,2,3,4,0])
-    print("-------------------------------------")
-    return opcao
-  '''
 
     def pega_dados_funcionario(self):
         layout = [[sg.Text('Nome:', size=(8, 1)), sg.InputText('', key='nome')],
@@ -78,12 +68,6 @@ class TelaFuncionario(TelaAbstrata):
 
         return matricula
 
-    def old_pega_dados_funcionario(self):
-        print("-------- DADOS FUNCIONARIO ----------")
-        nome = input("Nome: ")
-        matricula = self.excecao_tipo_int("Matricula: ", int)  # input("Matricula: ")
-        return {"nome": nome, "matricula": matricula}
-
     def mostra_funcionario(self, dados_funcionario):
         # print("NOME DO FUNCIONARIO: ", dados_funcionario["nome"])
         # print("MATRICULA DO FUNCIONARIO: ", dados_funcionario["matricula"])
@@ -95,13 +79,29 @@ class TelaFuncionario(TelaAbstrata):
             listagem_funcionarios = listagem_funcionarios + "FUNCIONÁRIO: " + dado["nome"] + '\n'
             listagem_funcionarios = listagem_funcionarios + "MATRICULA: " + str(dado["matricula"]) + '\n\n'
             contador += 1
-        sg.Popup('LISTA DE AMIGOS', listagem_funcionarios)
+        sg.Popup('LISTA DE FUNCIONÁRIOS', listagem_funcionarios)
+
+    def old_pega_dados_funcionario(self):
+        print("-------- DADOS FUNCIONARIO ----------")
+        nome = input("Nome: ")
+        matricula = self.excecao_tipo_int("Matricula: ", int)  # input("Matricula: ")
+        return {"nome": nome, "matricula": matricula}
 
     def seleciona_funcionario_old(self):
         matricula = input('Matricula: ')
         matricula = self.excecao_tipo_int("Matricula: ", int)  # matricula = input("Matricula do funcionário: ")
         return matricula
 
-    def open(self):
-        botao, valor = self.__window.Read()
-        return botao, valor
+    '''
+  def tela_opcoes(self):
+    print("-------- TELA FUNCIONARIOS ----------")
+    print("Escolha a opcao")
+    print("1 - Cadastrar funcionário")
+    print("2 - Listar funcionários")
+    print("3 - Editar Funcionário")
+    print("4 - Excluir funcionario")
+    print("0 - Retornar")
+    opcao = self.excecao_num_int("Escolha a opção:", [1,2,3,4,0])
+    print("-------------------------------------")
+    return opcao
+  '''

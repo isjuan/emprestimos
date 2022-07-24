@@ -77,9 +77,11 @@ class ControladorProduto:
       self.__tela_produto.mostra_mensagem("Aviso!","!!! NÃO HÁ PRODUTOS EM ESTOQUE !!!")
 
   def listar_produtos_emprestados(self):
+    dados_produtos_emprestados = []
     if len(self.__produtos_emprestados) > 0:
       for produto in self.__produtos_emprestados:
-         self.__tela_produto.mostra_produto({"nome_produto": produto.nome_produto, "marca": produto.marca, "modelo": produto.modelo, "numero_serie":produto.numero_serie})
+        dados_produtos_emprestados.append({"nome_produto": produto.nome_produto, "marca": produto.marca, "modelo": produto.modelo, "numero_serie":produto.numero_serie})
+      self.__tela_produto.mostra_produto(dados_produtos_emprestados)
     else:
       self.__tela_produto.mostra_mensagem("Aviso!","NÃO HÁ PRODUTOS EMPRESTADOS!.")
 

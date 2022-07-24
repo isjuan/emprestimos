@@ -107,14 +107,14 @@ class TelaProduto(TelaAbstrata):
         contador = 1
         for dado in dados_produto:
             listagem_produtos = listagem_produtos + str(contador) + '\n'
-            listagem_produtos = listagem_produtos + "Nome do Produto: " + dado["nome_produto"] + '\n'
-            listagem_produtos = listagem_produtos + "Marca do Produto: " + dado["marca"] + '\n'
-            listagem_produtos = listagem_produtos + "Modelo: " + dado["modelo"] + '\n'
+            listagem_produtos = listagem_produtos + "Nome do Produto: " + str(dado["nome_produto"]) + '\n'
+            listagem_produtos = listagem_produtos + "Marca do Produto: " + str(dado["marca"]) + '\n'
+            listagem_produtos = listagem_produtos + "Modelo: " + str(dado["modelo"]) + '\n'
             listagem_produtos = listagem_produtos + "N° Série: " + str(dado["numero_serie"]) + '\n\n'
             contador += 1
         sg.Popup('LISTA DE PRODUTOS', listagem_produtos)
 
-    def mostra_produto_OLD(self, dados_produto):
+    def mostra_produto_old(self, dados_produto):
         print("Nome do produto: ", dados_produto["nome_produto"])
         print("Marca do Produto: ", dados_produto["marca"])
         print("Modelo: ", dados_produto["modelo"])

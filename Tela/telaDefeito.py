@@ -1,3 +1,4 @@
+from tkinter import SINGLE
 import PySimpleGUI as sg
 from Tela.telaAbstrata import TelaAbstrata
 
@@ -123,13 +124,40 @@ class TelaDefeito(TelaAbstrata):
 #    codigo = input("Código do Defeito: ")
 #    return codigo
 
-  def mostra_defeito(self, dados_defeito):
-    print("\n")
-    print("-------DEFEITOS CADASTRADOS-----")
-    print("TITULO: ", dados_defeito["titulo"])
-    print("DESCRIÇÃO: ", dados_defeito["descricao"])
-    print("CÓDIGO: ", dados_defeito["codigo"])
-    print("\n")
+  def lista_defeitos(self, controlador):
+    dados = 'Código - Título do defeito: \n'
+    for defeito in controlador.defeitos:
+      dados += (str(defeito.codigo) + '-' + str(defeito.titulo) + '\n\n')
+    sg.Popup('Lista de Defeitos', dados)
+#    defeitos = []
+#    for defeito in controlador.defeitos:
+#      texto = ("Código: " + str(defeito.codigo))
+#      defeitos.append(defeito.codigo)
+#    layout = [[sg.Listbox(values=defeitos, select_mode=SINGLE, size=(20, len(defeitos)), key='1b_itens')],
+#              [sg.Ok('<< Retornar <<', button_color='#500000'), sg.Open('Selecionar', button_color='#008000')]
+#              ]
+#    self.__window = sg.Window('Lista de Defeitos').Layout(layout)
+#
+#    while True:
+#      botao, valor = self.open()
+#      if botao == sg.Ok:
+#        self.close()
+#      elif botao == sg.Open:
+#        self.mostra_defeito(dados_defeito={"titulo": defeito.titulo, "descricao": defeito.descricao, "codigo": defeito.codigo})
+
+#  def mostra_defeito(self, dados_defeito):
+#    dados = ''
+#    for dado in dados_defeito:
+#      dados += ("TÍTUTLO: " + str(dados_defeito['titulo']) + '\n')
+#      dados += ("DESCRIÇÃO: " + str(dados_defeito["descricao"]) + '\n')
+#      dados += ("CÓDIGO: " + str(dados_defeito["codigo"]) + '\n\n')
+#    sg.Popup('Dados do Defeito', dados)
+#    print("\n")
+#    print("-------DEFEITOS CADASTRADOS-----")
+#    print("TITULO: ", dados_defeito["titulo"])
+#    print("DESCRIÇÃO: ", dados_defeito["descricao"])
+#    print("CÓDIGO: ", dados_defeito["codigo"])
+#    print("\n")
 
 #  def pega_dados_defeito(self):
 #    print("-------- NOVO DEFEITO ----------")

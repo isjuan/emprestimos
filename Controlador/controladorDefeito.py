@@ -13,8 +13,9 @@ class ControladorDefeito:
 
   def listar_defeitos(self):
     if len(self.__defeitos) > 0:
-      for defeito in self.__defeitos:
-        self.__tela_defeito.mostra_defeito({"titulo": defeito.titulo, "descricao": defeito.descricao, "codigo": defeito.codigo})
+      self.__tela_defeito.lista_defeitos(self)
+#      for defeito in self.__defeitos:
+#        self.__tela_defeito.mostra_defeito({"titulo": defeito.titulo, "descricao": defeito.descricao, "codigo": defeito.codigo})
     else:
       self.__tela_defeito.mostra_mensagem("Aviso!","Não há defeitos cadastrados!")
 

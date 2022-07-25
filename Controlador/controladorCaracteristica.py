@@ -1,19 +1,20 @@
 from Tela.telaCaracteristica import TelaCaracteristica
-from Entidade.caracteristica import Caracteristica
+from DAOs.caracteristica_dao import CaracteristicaDAO
 from Entidade.produto import Produto
 
 class ControladorCaracteristica:
   def __init__(self, controlador_sistema):
+    self.__caracteristica_DAO = CaracteristicaDAO()
     self.__tela_caracteristica = TelaCaracteristica(self)
     self.__controlador_sistema = controlador_sistema
-    self.__caracteristicas = []
+#    self.__caracteristicas = []
 
   @property
   def caracteristicas(self):
-    return self.__caracteristicas
+    return self.__caracteristica_DAO.get_all()
 
   def pega_caracteristica_codigo(self, codigo: str):
-    for caracteristica in self.__caracteristicas:
+    for caracteristica in self.__caracteristica_DAO.get_all():
       if(caracteristica.codigo == codigo):
         return caracteristica
     return None
@@ -39,6 +40,7 @@ class ControladorCaracteristica:
               if caracteristica_no_produto is not None:
                 novo_valor = dados['valor']
                 caracteristica.valor = novo_valor
+                self.__caracteristica_DAO.update(caracteristica)
                 self.__tela_caracteristica.mostra_mensagem("Valor Alterado!", ("Valor da caracteristica alterado com sucesso! /n Valor: " + str(caracteristica.valor)))
             except:
               self.__tela_caracteristica.mostra_mensagem("ERRO!","!!! ESTE PRODUTO NÃO POSSUI ESSA CARACTERÍSTICA !!!")
@@ -62,6 +64,7 @@ class ControladorCaracteristica:
               caracteristica_no_produto = self.pega_caracteristica_no_produto(codigo, produto)
               if caracteristica_no_produto is not None:
                 caracteristica.descricao = nova_descricao
+                self.__caracteristica_DAO.update(caracteristica)
                 self.__tela_caracteristica.mostra_mensagem("DESCRIÇÃO ALTERADA!", ("Descrição da caracteristica alterada com sucesso! /n Descrição: " + str(caracteristica.descricao)))
             except:
               self.__tela_caracteristica.mostra_mensagem("ERRO!","!!! ESTE PRODUTO NÃO POSSUI ESSA CARACTERÍSTICA !!!")

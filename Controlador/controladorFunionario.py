@@ -21,8 +21,8 @@ class ControladorFuncionario:
         while continua:
             lista_opcoes[self.__tela_funcionario.tela_opcoes()]()
 
-        def retornar(self):
-            self.__controlador_sistema.abre_tela()
+    def retornar(self):
+        self.__controlador_sistema.abre_tela()
 
     def pega_funcionario_por_matricula(self, matricula: int):
         for funcionario in self.__funcionario_DAO.get_all():

@@ -7,6 +7,8 @@ from Controlador.controladorFunionario import ControladorFuncionario
 from Tela.telaSistema import TelaSistema
 
 class ControladorSistema:
+  __instance = None
+
   def __init__(self):
     self.__tela_sistema = TelaSistema(self)
     self.__controlador_caracteristica = ControladorCaracteristica(self)
@@ -14,6 +16,11 @@ class ControladorSistema:
     self.__controlador_emprestimo = ControladorEmprestimo(self)
     self.__controlador_defeito = ControladorDefeito(self)
     self.__controlador_funcionario = ControladorFuncionario(self)
+
+  def __new__(cls):
+    if ControladorSistema.__instance is None:
+      ControladorSistema.__instance = object.__new__(cls)
+    return ControladorSistema.__instance
 
   @property
   def controlador_funcionario(self):

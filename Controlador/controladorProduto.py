@@ -110,6 +110,7 @@ class ControladorProduto:
           try:
             if defeito is not None:
               produto.defeitos.append(defeito)
+              self.__produtos_estocados_DAO.update(produto)
               self.__tela_produto.mostra_mensagem("DEFEITO MARCADO NO PRODUTO!",("Defeito marcado no produto! /n Produto Nº serie: " + str(produto.numero_serie) + "/n Defeito: " + str(defeito.titulo)))
           except:
             self.__tela_produto.mostra_mensagem("Erro!","!!! DEFEITO NÃO CADASTRADO !!!")
@@ -139,7 +140,13 @@ class ControladorProduto:
             try:
               if defeito in produto.defeitos:
                 produto.defeitos.remove(defeito)
-                self.__tela_produto.mostra_mensagem("PRODUTO CONSERTADO!", ("Produto cosertado com sucesso! /n Produto Nº serie:" + str(produto.numero_serie)))
+                if produto in self.__produtos_estocados_DAO.get_all():
+                  self.__produtos_estocados_DAO.update(produto)
+                  self.__tela_produto.mostra_mensagem("PRODUTO CONSERTADO!", ("Produto cosertado com sucesso! /n Produto Nº serie:" + str(produto.numero_serie)))
+                elif produto in self.__produtos_emprestados_DAO.get_all():
+                  self.__produtos_emprestado_DAO.update(produto)
+                  self.__tela_produto.mostra_mensagem("PRODUTO CONSERTADO!", (
+                            "Produto cosertado com sucesso! /n Produto Nº serie:" + str(produto.numero_serie)))
             except:
               self.__tela_produto.mostra_mensagem("Erro!","!!! O PRODUTO NÃO TEM ESSE DEFEITO !!!")
         except:
@@ -151,22 +158,22 @@ class ControladorProduto:
     numero_serie = self.__tela_produto.seleciona_produto()
     produto = self.pega_produto_numero_serie(numero_serie)
     dados_caracteristica = self.__tela_produto.pega_dados_nova_caracteristica()
-    #try:
-    if dados_caracteristica is not None:
-      valor = dados_caracteristica["valor"]
-      descricao = dados_caracteristica["descricao"]
-      codigo = dados_caracteristica["codigo"]
-      caracteristica = Caracteristica(valor, descricao, codigo)
-      produto.caracteristicas.append(caracteristica)
-      print("aqui")
-      self.__controlador_sistema.controlador_caracteristica.caracteristica_DAO.add(caracteristica)
-      print("aqui")
-      self.__tela_produto.mostra_mensagem("CARACTERÍSTICA INCLUÍDA!",("Característica inclusa no produto. /n Produto N° serie: " + str(produto.numero_serie)))
-      print("aqui")
-      self.__controlador_sistema.controlador_caracteristica.caracteristicas.append(caracteristica)
-      print("aqui")
-    #except:
-      #self.__tela_produto.mostra_mensagem("Erro!","!!! DADOS INVÁLIDOS, POR REFAÇA A OPERAÇÃO COM DADOS VÁLIDOS!!!")
+    try:
+      if dados_caracteristica is not None:
+        valor = dados_caracteristica["valor"]
+        descricao = dados_caracteristica["descricao"]
+        codigo = dados_caracteristica["codigo"]
+        caracteristica = Caracteristica(valor, descricao, codigo)
+        produto.caracteristicas.append(caracteristica)
+        if produto in self.__produtos_estocados_DAO.get_all():
+          self.__produtos_estocados_DAO.update(produto)
+          self.__tela_produto.mostra_mensagem("CARACTERÍSTICA INCLUÍDA!", (
+                    "Característica inclusa no produto. /n Produto N° serie: " + str(produto.numero_serie)))
+        elif produto in self.__produtos_emprestados_DAO.get_all():
+          self.__produtos_emprestado_DAO.update(produto)
+          self.__tela_produto.mostra_mensagem("CARACTERÍSTICA INCLUÍDA!",("Característica inclusa no produto. /n Produto N° serie: " + str(produto.numero_serie)))
+    except:
+      self.__tela_produto.mostra_mensagem("Erro!","!!! DADOS INVÁLIDOS, POR REFAÇA A OPERAÇÃO COM DADOS VÁLIDOS!!!")
 
   def alterar_caracteristicas(self):
     self.__controlador_sistema.controlador_caracteristica.abre_tela()
@@ -222,3 +229,4 @@ class ControladorProduto:
 
   def add_estocado(self, produto):
     self.__produtos_estocados_DAO.add(produto)
+

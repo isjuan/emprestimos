@@ -1,19 +1,21 @@
 from Entidade.emprestimo import Emprestimo
 from Tela.telaEmprestimo import TelaEmprestimo
+from DAOs.emprestimo_dao import EmprestimoDAO
 
 class ControladorEmprestimo:
 
   def __init__(self, controlador_sistema):
     self.__tela_emprestimo = TelaEmprestimo(self)
     self.__controlador_sistema = controlador_sistema
-    self.__emprestimos = []
+    # self.__emprestimos = []
+    self.__emprestimos_DAO = EmprestimoDAO()
 
   @property
   def emprestimos(self):
-    return self.__emprestimos
+    return self.__emprestimos_DAO.get_all()
 
   def pega_emprestimo_codigo(self, codigo: int):
-    for emprestimo in self.__emprestimos:
+    for emprestimo in self.__emprestimos_DAO.get_all():
       if(emprestimo.codigo == codigo):
         return emprestimo
     return None
@@ -36,7 +38,7 @@ class ControladorEmprestimo:
           if funcionario is not None:
             codigo = dados_emprestimo['codigo']#self.__tela_emprestimo.pega_codigo_emprestimo()
             emprestimo = Emprestimo(produto, funcionario, codigo)
-            self.__emprestimos.append(emprestimo)
+            self.__emprestimos_DAO.add(emprestimo)
             self.__controlador_sistema.controlador_produto.produtos_emprestados.append(produto)
             self.__controlador_sistema.controlador_produto.produtos_estocados.remove(produto)
         except:
@@ -48,9 +50,9 @@ class ControladorEmprestimo:
     codigo = self.__tela_emprestimo.seleciona_emprestimo()
     emprestimo = self.pega_emprestimo_codigo(codigo)
     try:
-      if emprestimo in self.__emprestimos:
+      if emprestimo in self.__emprestimos_DAO.get_all():
         produto = emprestimo.produto
-        self.__emprestimos.remove(emprestimo)
+        self.__emprestimos_DAO.remove(emprestimo)
         self.__controlador_sistema.controlador_produto.produtos.append(produto)
         self.__controlador_sistema.controlador_produto.produtos_emprestados.remove(produto)
     except:

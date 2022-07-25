@@ -1,26 +1,30 @@
 from Tela.telaProduto import TelaProduto
 from Entidade.produto import Produto
 from Entidade.caracteristica import Caracteristica
+from DAOs.produto_dao import ProdutoDAO
 
 class ControladorProduto:
   def __init__(self, controlador_sistema):
-    self.__produtos = []
-    self.__produtos_emprestados = []
-    self.__produtos_estocados = []
+    # self.__produtos = []
+    # self.__produtos_emprestados = []
+    # self.__produtos_estocados = []
+    self.__produtos_DAO = ProdutoDAO()
+    self.__produtos_emprestados_DAO = ProdutoDAO()
+    self.__produtos_estocados_DAO = ProdutoDAO()
     self.__controlador_sistema = controlador_sistema
     self.__tela_produto = TelaProduto(self)
 
   @property #função usada pelo sistema
   def produtos(self):
-    return self.__produtos
+    return self.__produtos_DAO.get_all()
 
   @property #função usada pelo sistema
   def produtos_emprestados(self):
-    return self.__produtos_emprestados
+    return self.__produtos_emprestados_DAO.get_all()
 
   @property #função usada pelo sistema
   def produtos_estocados(self):
-    return self.__produtos_estocados
+    return self.__produtos_estocados_DAO.get_all()
 
   def abre_tela(self):
     lista_opcoes = {1: self.incluir_produto, 2: self.alterar_produto, 3: self.excluir_produto, 4: self.listar_produtos_estocados, 5: self.listar_produtos_emprestados, 6: self.incluir_caracteristica, 7: self.alterar_caracteristicas, 8: self.excluir_caracteristca, 9: self.listar_caracteristicas, 10: self.marcar_defeito, 11: self.listar_defeitos, 12: self.consertar_produto, 0: self.retornar}
@@ -31,8 +35,8 @@ class ControladorProduto:
       lista_opcoes[self.__tela_produto.tela_opcoes()]()
   
   def pega_produto_numero_serie(self, numero_serie: int):
-    for produto in self.__produtos:
-      if(produto.numero_serie == numero_serie):
+    for produto in self.__produtos_DAO.get_all():
+      if produto.numero_serie == numero_serie:
         return produto
     return None
 
@@ -46,8 +50,8 @@ class ControladorProduto:
       self.__tela_produto.mostra_mensagem("Erro!","PRODUTO JÁ EXISTE !!!")
     else:
       produto = Produto(dados_produto["nome_produto"], dados_produto["marca"], dados_produto["modelo"], dados_produto["numero_serie"])
-      self.__produtos.append(produto)
-      self.__produtos_estocados.append(produto)
+      self.__produtos_DAO.add(produto)
+      self.__produtos_estocados_DAO.add(produto)
 
   def alterar_produto(self):
     numero_serie = self.__tela_produto.seleciona_produto()
@@ -69,8 +73,8 @@ class ControladorProduto:
 
   def listar_produtos_estocados(self):
     dados_produtos_estocados = []
-    if len(self.__produtos_estocados) > 0:
-      for produto in self.__produtos_estocados:
+    if len(self.__produtos_estocados_DAO.get_all()) > 0:
+      for produto in self.__produtos_estocados_DAO.get_all():
         dados_produtos_estocados.append({"nome_produto": produto.nome_produto, "marca": produto.marca, "modelo": produto.modelo, "numero_serie":produto.numero_serie})
       self.__tela_produto.mostra_produto(dados_produtos_estocados)
     else:
@@ -78,8 +82,8 @@ class ControladorProduto:
 
   def listar_produtos_emprestados(self):
     dados_produtos_emprestados = []
-    if len(self.__produtos_emprestados) > 0:
-      for produto in self.__produtos_emprestados:
+    if len(self.__produtos_emprestados_DAO.get_all()) > 0:
+      for produto in self.__produtos_emprestados_DAO.get_all():
         dados_produtos_emprestados.append({"nome_produto": produto.nome_produto, "marca": produto.marca, "modelo": produto.modelo, "numero_serie":produto.numero_serie})
       self.__tela_produto.mostra_produto(dados_produtos_emprestados)
     else:
@@ -176,11 +180,11 @@ class ControladorProduto:
   def excluir_produto(self):
     numero_serie = self.__tela_produto.seleciona_produto()
     produto = self.pega_produto_numero_serie(numero_serie)
-    if produto in self.__produtos_emprestados:
+    if produto in self.__produtos_emprestados_DAO.get_all():
       self.__tela_produto.mostra_mensagem("Erro!","Não é possível excluir produtos emprestados!")
     elif(produto is not None):
-      self.__produtos.remove(produto)
-      self.__produtos_estocados.remove(produto)
+      self.__produtos_DAO.remove(produto)
+      self.__produtos_estocados_DAO.remove(produto)
       self.__tela_produto.mostra_mensagem("PRODUTO EXCLUÍDO!", ("Produto excluído com sucesso /n Produto nº serie: "+str(produto.numero_serie)))
     else:
       self.__tela_produto.mostra_mensagem("Erro!","!!! PRODUTO NÃO EXISTENTE !!!")

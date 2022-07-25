@@ -106,8 +106,7 @@ class ControladorProduto:
     produto = self.pega_produto_numero_serie(numero_serie)
     try:
       if len(produto.defeitos) > 0:
-        for defeito in produto.defeitos:
-          self.__tela_produto.mostra_defeitos(defeito)
+        self.__tela_produto.mostra_defeitos(produto)
     except:
       self.__tela_produto.mostra_mensagem("Erro!","!!! O PRODUTO NÃO POSSUI DEFEITOS!!!")
 
@@ -155,8 +154,8 @@ class ControladorProduto:
     produto = self.pega_produto_numero_serie(numero_serie)
     
     if len(produto.caracteristicas) > 0:
-      for caracteristica in produto.caracteristicas:
-        self.__tela_produto.mostra_caracteristicas(caracteristica)
+#      for caracteristica in produto.caracteristicas:
+      self.__tela_produto.mostra_caracteristicas(produto)
     else:
       self.__tela_produto.mostra_mensagem("Erro!","O PRODUTO NÃO POSSUI CARACTERÍSTICAS DEFINIDAS!")
 

@@ -125,9 +125,9 @@ class TelaDefeito(TelaAbstrata):
 #    return codigo
 
   def lista_defeitos(self, controlador):
-    dados = 'Código - Título do defeito: \n'
+    dados = 'Código - Descrição do defeito: \n\n'
     for defeito in controlador.defeitos:
-      dados += (str(defeito.codigo) + '-' + str(defeito.titulo) + '\n\n')
+      dados += (str(defeito.codigo) + ' - ' + str(defeito.descricao) + '\n')
     sg.Popup('Lista de Defeitos', dados)
 #    defeitos = []
 #    for defeito in controlador.defeitos:

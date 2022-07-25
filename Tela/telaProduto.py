@@ -136,26 +136,26 @@ class TelaProduto(TelaAbstrata):
         return codigo
 
 
-    def mostra_caracteristicas(self, caracteristica):
+    def mostra_caracteristicas(self, produto):
         # print("Descrição: ", caracteristica.descricao)
         # print("Valor: ", caracteristica.valor)
         # print("Código: ", caracteristica.codigo)
         # print("----------------------")
-        caracteristicas = ""
-
-        caracteristicas = caracteristicas + "Descição: " + str(caracteristica.descricao) + '\n'
-        caracteristicas = caracteristicas + "Valor: " + str(caracteristica.valor) + '\n'
-        caracteristicas = caracteristicas + "Código: " + str(caracteristica.codigo) + '\n\n'
+        caracteristicas = 'Descrição - Valor - Código: \n\n'
+        for caracteristica in produto.caracteristicas:
+            caracteristicas += (str(caracteristica.descricao) + ' - ' +
+                                str(caracteristica.valor) + ' - ' +
+                                str(caracteristica.codigo) + '\n')
 
         sg.Popup('CARACTERISTICAS', caracteristicas)
 
     def pega_dados_nova_caracteristica(self):
         layout = [[sg.Text('Valor:', size=(15, 1)), sg.InputText('', key='valor')],
-                  [sg.Text('descricao:', size=(15, 1)), sg.InputText('', key='descricao')],
-                  [sg.Text('codigo:', size=(15, 1)), sg.InputText('', key='codigo')],
+                  [sg.Text('Descrição:', size=(15, 1)), sg.InputText('', key='descricao')],
+                  [sg.Text('Código:', size=(15, 1)), sg.InputText('', key='codigo')],
                   [sg.Submit('Cadastrar', button_color='#008000')]
                   ]
-        self.__window = sg.Window('CADASTRAR PRODUTO').Layout(layout)
+        self.__window = sg.Window('INCLUIR CARACTERÍSTICA').Layout(layout)
 
         while True:
             botao, value = self.open()
@@ -187,7 +187,7 @@ class TelaProduto(TelaAbstrata):
             [sg.Text('Código:', size=(8, 1)), sg.InputText('', key='codigo')],
             [sg.Submit('Selecionar', button_color='#008000')]
         ]
-        self.__window = sg.Window('CODIGO DO DEFEITO').Layout(layout)
+        self.__window = sg.Window('CODIGO DA CARACTERÍSTICA').Layout(layout)
 
         button, values = self.open()
         codigo = values['codigo']
@@ -213,16 +213,14 @@ class TelaProduto(TelaAbstrata):
 
         return codigo
 
-    def mostra_defeitos(self, defeito):
+    def mostra_defeitos(self, produto):
         # print("Título: ", defeito.titulo)
         # print("Descrição: ", defeito.descricao)
         # print("Código: ", defeito.codigo)
         # print("----------------------")
-        defeitos = ""
-
-        defeitos = defeitos + "Titulo: " + str(defeito.titulo) + '\n''
-        defeitos = defeitos + "Descrição: " + str(defeito.descricao) + '\n'
-        defeitos = defeitos + "Código: " + str(defeito.codigo) + '\n\n'
+        defeitos = 'Descrição - Código: \n\n'
+        for defeito in produto.defeitos:
+            defeitos += (str(defeito.descricao) + ' - ' + str(defeito.codigo) + '\n')
 
         sg.Popup('DEFEITOS', defeitos)
 

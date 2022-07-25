@@ -20,8 +20,7 @@ class ControladorEmprestimo:
  
   def lista_emprestimo(self):
     if len(self.emprestimos) > 0:
-      for emprestimo in self.emprestimos:
-        self.__tela_emprestimo.mostra_emprestimo(emprestimo)
+      self.__tela_emprestimo.mostra_emprestimo(self)
     else:
       self.__tela_emprestimo.mostra_mensagem("Erro!","NÃO HÁ EMPRÉSTIMOS REALIZADOS!!!")
 

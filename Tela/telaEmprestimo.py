@@ -82,12 +82,19 @@ class TelaEmprestimo(TelaAbstrata):
     return codigo
 
   # fazer aqui tratamento dos dados, caso a entrada seja diferente do esperado
-  def mostra_emprestimo(self, emprestimo):
-    print("\n")
-    print("Produto: ", emprestimo.produto.nome_produto) 
-    print("Nome do funcionário: ", emprestimo.funcionario.nome)
-    print("Código de empréstimo: ", emprestimo.codigo)
-    print("\n")
+  def mostra_emprestimo(self, controlador):
+    emprestimos = 'Produto - Funcionário - Código: \n\n'
+    for emprestimo in controlador.emprestimos:
+      emprestimos += (str(emprestimo.produto.nome_produto) + ' - ' +
+                      str(emprestimo.funcionario.nome) + ' - ' +
+                      str(emprestimo.codigo) + '\n')
+
+    sg.Popup('Lista de Empréstimos', emprestimos)
+#    print("\n")
+#    print("Produto: ", emprestimo.produto.nome_produto) 
+#    print("Nome do funcionário: ", emprestimo.funcionario.nome)
+#    print("Código de empréstimo: ", emprestimo.codigo)
+#    print("\n")
 
 #Funções antigas não utilizadas:
   def pega_codigo_emprestimo(self):

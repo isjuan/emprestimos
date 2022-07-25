@@ -78,7 +78,7 @@ class TelaProduto(TelaAbstrata):
                   [sg.Text('Marca:', size=(15, 1)), sg.InputText('', key='marca')],
                   [sg.Text('Modelo:', size=(15, 1)), sg.InputText('', key='modelo')],
                   [sg.Text('Número de série:', size=(15, 1)), sg.InputText('', key='numero_serie')],
-                  [sg.Cancel('<< Retornar <<', button_color='#500000'), sg.Submit('Cadastrar', button_color='#008000')]
+                  [sg.Submit('Cadastrar', button_color='#008000')]
                   ]
         self.__window = sg.Window('CADASTRAR PRODUTO').Layout(layout)
 
@@ -126,12 +126,12 @@ class TelaProduto(TelaAbstrata):
         layout = [
             [sg.Text('Qual o código da caracteristica a ser selecionada?', font=("Helvica", 9))],
             [sg.Text('Código:', size=(8, 1)), sg.InputText('', key='codigo')],
-            [sg.Cancel('<< Retornar <<', button_color='#500000'), sg.Submit('Selecionar', button_color='#008000')]
+            [sg.Submit('Selecionar', button_color='#008000')]
         ]
         self.__window = sg.Window('SELECIONE A CARACTERISTICA').Layout(layout)
 
         button, values = self.open()
-        codigo = self.excecao_tipo_int(values['codigo'], int)
+        codigo = values['codigo']
         self.close()
         return codigo
 
@@ -153,7 +153,7 @@ class TelaProduto(TelaAbstrata):
         layout = [[sg.Text('Valor:', size=(15, 1)), sg.InputText('', key='valor')],
                   [sg.Text('descricao:', size=(15, 1)), sg.InputText('', key='descricao')],
                   [sg.Text('codigo:', size=(15, 1)), sg.InputText('', key='codigo')],
-                  [sg.Cancel('<< Retornar <<', button_color='#500000'), sg.Submit('Cadastrar', button_color='#008000')]
+                  [sg.Submit('Cadastrar', button_color='#008000')]
                   ]
         self.__window = sg.Window('CADASTRAR PRODUTO').Layout(layout)
 
@@ -183,38 +183,54 @@ class TelaProduto(TelaAbstrata):
 
     def pega_caracteristica_no_produto(self):
         layout = [
-            [sg.Text('INDIQUE A CARACTERÍSTICA DO PRODUTO', font=("Helvica", 9))],
+            [sg.Text('Qual o código da característica?', font=("Helvica", 9))],
             [sg.Text('Código:', size=(8, 1)), sg.InputText('', key='codigo')],
-            [sg.Cancel('<< Retornar <<', button_color='#500000'), sg.Submit('Selecionar', button_color='#008000')]
+            [sg.Submit('Selecionar', button_color='#008000')]
         ]
-        self.__window = sg.Window('SELECIONE A CARACTERISTICA').Layout(layout)
+        self.__window = sg.Window('CODIGO DO DEFEITO').Layout(layout)
+
+        button, values = self.open()
+        codigo = values['codigo']
+        self.close()
+        return {"codigo": codigo}
+        # print("-------- INDIQUE A CARACTERÍSTICA DO PRODUTO ----------")
+        # codigo = input("Código da Característica: ")
+
+
+    def pega_codigo_defeito(self):
+        # print("-------- INDIQUE O CÓDIGO DO DEFEITO ----------")
+        # codigo = str(input("Código do defeito: "))
+        layout = [
+            [sg.Text('Qual o código do defeito?', font=("Helvica", 9))],
+            [sg.Text('Código:', size=(8, 1)), sg.InputText('', key='codigo')],
+            [sg.Submit('Selecionar', button_color='#008000')]
+        ]
+        self.__window = sg.Window('CODIGO DO DEFEITO').Layout(layout)
 
         button, values = self.open()
         codigo = values['codigo']
         self.close()
 
-        # print("-------- INDIQUE A CARACTERÍSTICA DO PRODUTO ----------")
-        # codigo = input("Código da Característica: ")
-
-        return {"codigo": codigo}
-
-    def pega_codigo_defeito(self):
-        print("-------- INDIQUE O CÓDIGO DO DEFEITO ----------")
-        codigo = str(input("Código do defeito: "))
-
         return codigo
 
     def mostra_defeitos(self, defeito):
-        print("Título: ", defeito.titulo)
-        print("Descrição: ", defeito.descricao)
-        print("Código: ", defeito.codigo)
-        print("----------------------")
+        # print("Título: ", defeito.titulo)
+        # print("Descrição: ", defeito.descricao)
+        # print("Código: ", defeito.codigo)
+        # print("----------------------")
+        defeitos = ""
+
+        defeitos = defeitos + "Titulo: " + str(defeito.titulo) + '\n''
+        defeitos = defeitos + "Descrição: " + str(defeito.descricao) + '\n'
+        defeitos = defeitos + "Código: " + str(defeito.codigo) + '\n\n'
+
+        sg.Popup('DEFEITOS', defeitos)
 
     def seleciona_produto(self):
         layout = [
             [sg.Text('Qual o N°Série que deseja selecionar?', font=("Helvica", 9))],
             [sg.Text('N°Série:', size=(8, 1)), sg.InputText('', key='numero_serie')],
-            [sg.Cancel('<< Retornar <<', button_color='#500000'), sg.Submit('Selecionar', button_color='#008000')]
+            [sg.Submit('Selecionar', button_color='#008000')]
         ]
         self.__window = sg.Window('SELECIONE O PRODUTO').Layout(layout)
 

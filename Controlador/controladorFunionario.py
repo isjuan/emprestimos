@@ -75,14 +75,10 @@ class ControladorFuncionario:
                     for funcionario in self.__funcionario_DAO.get_all():
                         if funcionario.matricula == novos_dados_funcionario["matricula"]:
                             raise EOFError
-                    self.__funcionario_DAO.remove(funcionario.matricula)
-                    funcionario.nome = novos_dados_funcionario["nome"]
-                    funcionario.matricula = novos_dados_funcionario["matricula"]
-                    self.__funcionario_DAO.add(funcionario)
+                    self.__tela_funcionario.mostra_mensagem("Erro!","Não é possível alterar a matricula")
                 except EOFError:
                     self.__tela_funcionario.mostra_mensagem("Erro!",
                                                             "!!! Matrícula já utilizada por outro funcionário!!!")
-            # funcionario.matricula = novos_dados_funcionario["matricula"]
             self.lista_funcionarios()
         else:
             self.__tela_funcionario.mostra_mensagem("Erro!", "!!! FUNCIONARIO NÃO EXISTENTE !!!")
@@ -100,5 +96,3 @@ class ControladorFuncionario:
         else:
             self.__tela_funcionario.mostra_mensagem("Erro!", "!!!!! FUNCIONARIO NÃO EXISTENTE !!!")
 
-    def retornar(self):
-        self.__controlador_sistema.abre_tela()

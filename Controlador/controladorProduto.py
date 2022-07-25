@@ -37,12 +37,9 @@ class ControladorProduto:
       lista_opcoes[self.__tela_produto.tela_opcoes()]()
   
   def pega_produto_numero_serie(self, numero_serie: int):
-    for produto in self.__produtos_DAO.get_all():
+    for produto in self.__produtos_emprestados_DAO.get_all():
       if produto.numero_serie == numero_serie:
         return produto
-    return None
-
-  def pega_produto_numero_serie_estoque(self, numero_serie: int):
     for produto in self.__produtos_estocados_DAO.get_all():
       if produto.numero_serie == numero_serie:
         return produto
@@ -63,7 +60,7 @@ class ControladorProduto:
 
   def alterar_produto(self):
     numero_serie = self.__tela_produto.seleciona_produto()
-    produto = self.pega_produto_numero_serie_estoque(numero_serie)
+    produto = self.pega_produto_numero_serie(numero_serie)
 
     if(produto is not None):
       novos_dados_produto = self.__tela_produto.pega_dados_produto()
@@ -104,7 +101,7 @@ class ControladorProduto:
 
   def marcar_defeito(self):
     numero_serie = self.__tela_produto.seleciona_produto()
-    produto = self.pega_produto_numero_serie_estoque(numero_serie)
+    produto = self.pega_produto_numero_serie(numero_serie)
     try:
       if produto is not None:
         if produto in self.__produtos_estocados_DAO.get_all():
@@ -154,18 +151,22 @@ class ControladorProduto:
     numero_serie = self.__tela_produto.seleciona_produto()
     produto = self.pega_produto_numero_serie(numero_serie)
     dados_caracteristica = self.__tela_produto.pega_dados_nova_caracteristica()
-    try:
-      if dados_caracteristica is not None:
-        valor = dados_caracteristica["valor"]
-        descricao = dados_caracteristica["descricao"]
-        codigo = dados_caracteristica["codigo"]
-        caracteristica = Caracteristica(valor, descricao, codigo)
-        produto.caracteristicas.append(caracteristica)
-        self.__controlador_sistema.controlador_caracteristica.caracteristica_DAO.add(caracteristica)
-        self.__tela_produto.mostra_mensagem("CARACTERÍSTICA INCLUÍDA!",("Característica inclusa no produto. /n Produto N° serie: " + str(produto.numero_serie)))
-        self.__controlador_sistema.controlador_caracteristica.caracteristicas.append(caracteristica)
-    except:
-      self.__tela_produto.mostra_mensagem("Erro!","!!! DADOS INVÁLIDOS, POR REFAÇA A OPERAÇÃO COM DADOS VÁLIDOS!!!")
+    #try:
+    if dados_caracteristica is not None:
+      valor = dados_caracteristica["valor"]
+      descricao = dados_caracteristica["descricao"]
+      codigo = dados_caracteristica["codigo"]
+      caracteristica = Caracteristica(valor, descricao, codigo)
+      produto.caracteristicas.append(caracteristica)
+      print("aqui")
+      self.__controlador_sistema.controlador_caracteristica.caracteristica_DAO.add(caracteristica)
+      print("aqui")
+      self.__tela_produto.mostra_mensagem("CARACTERÍSTICA INCLUÍDA!",("Característica inclusa no produto. /n Produto N° serie: " + str(produto.numero_serie)))
+      print("aqui")
+      self.__controlador_sistema.controlador_caracteristica.caracteristicas.append(caracteristica)
+      print("aqui")
+    #except:
+      #self.__tela_produto.mostra_mensagem("Erro!","!!! DADOS INVÁLIDOS, POR REFAÇA A OPERAÇÃO COM DADOS VÁLIDOS!!!")
 
   def alterar_caracteristicas(self):
     self.__controlador_sistema.controlador_caracteristica.abre_tela()
@@ -197,7 +198,7 @@ class ControladorProduto:
 
   def excluir_produto(self):
     numero_serie = self.__tela_produto.seleciona_produto()
-    produto = self.pega_produto_numero_serie_estoque(numero_serie)
+    produto = self.pega_produto_numero_serie(numero_serie)
     if produto in self.__produtos_emprestados_DAO.get_all():
       self.__tela_produto.mostra_mensagem("Erro!","Não é possível excluir produtos emprestados!")
     elif(produto is not None):

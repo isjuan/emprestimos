@@ -2,6 +2,8 @@ from Tela.telaProduto import TelaProduto
 from Entidade.produto import Produto
 from Entidade.caracteristica import Caracteristica
 from DAOs.produto_dao import ProdutoDAO
+from DAOs.produto_emprestado_dao import ProdutoEmprestadoDAO
+from DAOs.produto_estocado_dao import ProdutoEstocadoDAO
 
 class ControladorProduto:
   def __init__(self, controlador_sistema):
@@ -9,8 +11,8 @@ class ControladorProduto:
     # self.__produtos_emprestados = []
     # self.__produtos_estocados = []
     self.__produtos_DAO = ProdutoDAO()
-    self.__produtos_emprestados_DAO = ProdutoDAO()
-    self.__produtos_estocados_DAO = ProdutoDAO()
+    self.__produtos_emprestados_DAO = ProdutoEmprestadoDAO()
+    self.__produtos_estocados_DAO = ProdutoEstocadoDAO()
     self.__controlador_sistema = controlador_sistema
     self.__tela_produto = TelaProduto(self)
 
@@ -40,6 +42,12 @@ class ControladorProduto:
         return produto
     return None
 
+  def pega_produto_numero_serie_estoque(self, numero_serie: int):
+    for produto in self.__produtos_estocados_DAO.get_all():
+      if produto.numero_serie == numero_serie:
+        return produto
+    return None
+
   def incluir_produto(self):
     dados_produto = self.__tela_produto.pega_dados_produto()
     try:
@@ -55,7 +63,7 @@ class ControladorProduto:
 
   def alterar_produto(self):
     numero_serie = self.__tela_produto.seleciona_produto()
-    produto = self.pega_produto_numero_serie(numero_serie)
+    produto = self.pega_produto_numero_serie_estoque(numero_serie)
 
     if(produto is not None):
       novos_dados_produto = self.__tela_produto.pega_dados_produto()
@@ -63,11 +71,16 @@ class ControladorProduto:
       marca = novos_dados_produto["marca"]
       modelo = novos_dados_produto["modelo"]
       numero_serie = novos_dados_produto["numero_serie"]
-      produto.nome_produto = nome_produto
-      produto.marca = marca
-      produto.modelo = modelo
-      produto.numero_serie = numero_serie
-      self.__tela_produto.mostra_mensagem("PRODUTO ALTERADO!", ("NUMERO DE SÉRIE: " + str(produto.numero_serie)))
+      if produto in self.__produtos_estocados_DAO.get_all():
+        self.__produtos_estocados_DAO.remove(produto.numero_serie)
+        produto.nome_produto = nome_produto
+        produto.marca = marca
+        produto.modelo = modelo
+        produto.numero_serie = numero_serie
+        self.__produtos_estocados_DAO.add(produto)
+        self.__tela_produto.mostra_mensagem("PRODUTO ALTERADO!", ("NUMERO DE SÉRIE: " + str(produto.numero_serie)))
+      else:
+        self.__tela_produto.mostra_mensagem("Erro!", "Não é possível alterar produto emprestado!!!")
     else:
       self.__tela_produto.mostra_mensagem("Erro!","PRODUTO NÃO EXISTENTE !!!")
 
@@ -91,17 +104,20 @@ class ControladorProduto:
 
   def marcar_defeito(self):
     numero_serie = self.__tela_produto.seleciona_produto()
-    produto = self.pega_produto_numero_serie(numero_serie)
+    produto = self.pega_produto_numero_serie_estoque(numero_serie)
     try:
       if produto is not None:
-        codigo = self.__tela_produto.pega_codigo_defeito()
-        defeito = self.__controlador_sistema.controlador_defeito.pega_defeito_codigo(codigo)
-        try:
-          if defeito is not None:
-            produto.defeitos.append(defeito)
-            self.__tela_produto.mostra_mensagem("DEFEITO MARCADO NO PRODUTO!",("Defeito marcado no produto! /n Produto Nº serie: " + str(produto.numero_serie) + "/n Defeito: " + str(defeito.titulo)))
-        except:
-          self.__tela_produto.mostra_mensagem("Erro!","!!! DEFEITO NÃO CADASTRADO !!!")
+        if produto in self.__produtos_estocados_DAO.get_all():
+          codigo = self.__tela_produto.pega_codigo_defeito()
+          defeito = self.__controlador_sistema.controlador_defeito.pega_defeito_codigo(codigo)
+          try:
+            if defeito is not None:
+              produto.defeitos.append(defeito)
+              self.__tela_produto.mostra_mensagem("DEFEITO MARCADO NO PRODUTO!",("Defeito marcado no produto! /n Produto Nº serie: " + str(produto.numero_serie) + "/n Defeito: " + str(defeito.titulo)))
+          except:
+            self.__tela_produto.mostra_mensagem("Erro!","!!! DEFEITO NÃO CADASTRADO !!!")
+        else:
+          self.__tela_produto.mostra_mensagem("Erro","Não é possível marcar defeito em produto emprestado")
     except:
       self.__tela_produto.mostra_mensagem("Erro!","!!! PRODUTO NÃO ENCONTRADO !!!")
 
@@ -179,15 +195,27 @@ class ControladorProduto:
 
   def excluir_produto(self):
     numero_serie = self.__tela_produto.seleciona_produto()
-    produto = self.pega_produto_numero_serie(numero_serie)
+    produto = self.pega_produto_numero_serie_estoque(numero_serie)
     if produto in self.__produtos_emprestados_DAO.get_all():
       self.__tela_produto.mostra_mensagem("Erro!","Não é possível excluir produtos emprestados!")
     elif(produto is not None):
-      self.__produtos_DAO.remove(produto)
-      self.__produtos_estocados_DAO.remove(produto)
+      self.__produtos_DAO.remove(produto.numero_serie)
+      self.__produtos_estocados_DAO.remove(produto.numero_serie)
       self.__tela_produto.mostra_mensagem("PRODUTO EXCLUÍDO!", ("Produto excluído com sucesso /n Produto nº serie: "+str(produto.numero_serie)))
     else:
       self.__tela_produto.mostra_mensagem("Erro!","!!! PRODUTO NÃO EXISTENTE !!!")
 
   def retornar(self):
     self.__controlador_sistema.abre_tela()
+
+  def remove_estocado(self, produto):
+    self.__produtos_estocados_DAO.remove(produto.numero_serie)
+
+  def add_emprestado(self, produto):
+    self.__produtos_emprestados_DAO.add(produto)
+
+  def remove_emprestado(self, produto):
+    self.__produtos_emprestados_DAO.remove(produto.numero_serie)
+
+  def add_estocado(self, produto):
+    self.__produtos_estocados_DAO.add(produto)

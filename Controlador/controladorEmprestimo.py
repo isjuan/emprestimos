@@ -39,8 +39,8 @@ class ControladorEmprestimo:
             codigo = dados_emprestimo['codigo']#self.__tela_emprestimo.pega_codigo_emprestimo()
             emprestimo = Emprestimo(produto, funcionario, codigo)
             self.__emprestimos_DAO.add(emprestimo)
-            self.__controlador_sistema.controlador_produto.produtos_emprestados.append(produto)
-            self.__controlador_sistema.controlador_produto.produtos_estocados.remove(produto)
+            self.__controlador_sistema.controlador_produto.add_emprestado(produto)
+            self.__controlador_sistema.controlador_produto.remove_estocado(produto)
         except:
             self.__tela_emprestimo.mostra_mensagem("Erro!","!!! FUNCIONÁRIO NÃO EXISTENTE! INSIRA UMA MATRÍCULA VÁLIDA !!!")
     except:
@@ -52,9 +52,9 @@ class ControladorEmprestimo:
     try:
       if emprestimo in self.__emprestimos_DAO.get_all():
         produto = emprestimo.produto
-        self.__emprestimos_DAO.remove(emprestimo)
-        self.__controlador_sistema.controlador_produto.produtos.append(produto)
-        self.__controlador_sistema.controlador_produto.produtos_emprestados.remove(produto)
+        self.__emprestimos_DAO.remove(emprestimo.codigo)
+        self.__controlador_sistema.controlador_produto.add_estocado(produto)
+        self.__controlador_sistema.controlador_produto.remove_emprestado(produto)
     except:
       self.__tela_emprestimo.mostra_mensagem("Erro!","EMPRÉSTIMO NÃO EXISTENTE! INSIRA UM CÓDIGO VÁLIDO!")
 

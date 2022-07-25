@@ -161,6 +161,7 @@ class ControladorProduto:
         codigo = dados_caracteristica["codigo"]
         caracteristica = Caracteristica(valor, descricao, codigo)
         produto.caracteristicas.append(caracteristica)
+        self.__controlador_sistema.controlador_caracteristica.caracteristica_DAO.add(caracteristica)
         self.__tela_produto.mostra_mensagem("CARACTERÍSTICA INCLUÍDA!",("Característica inclusa no produto. /n Produto N° serie: " + str(produto.numero_serie)))
         self.__controlador_sistema.controlador_caracteristica.caracteristicas.append(caracteristica)
     except:
@@ -187,6 +188,7 @@ class ControladorProduto:
     if caracteristica is not None:
       if caracteristica in produto.caracteristicas:
         produto.caracteristicas.remove(caracteristica)
+        self.__controlador_sistema.controlador_caracteristica.caracteristica_DAO.remove(caracteristica.codigo)
         self.__controlador_sistema.controlador_caracteristica.caracteristicas.remove(caracteristica)
       else:
         self.__tela_produto.mostra_mensagem("Erro!","!!! O PRODUTO NÃO TEM ESSA CARACTERÍSTICA !!!")

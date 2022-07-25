@@ -53,7 +53,7 @@ class TelaDefeito(TelaAbstrata):
 
   def pega_dados_defeito(self): #Mudar para adepas descrição/nome e código
     layout = [[sg.Text('Título:', size=(10, 1)), sg.InputText('', key='titulo')],
-              [sg.Text('Descriço:', size=(10, 1)), sg.InputText('', key='descricao')],
+              [sg.Text('Descrição:', size=(10, 1)), sg.InputText('', key='descricao')],
               [sg.Text('Codigo:', size=(10, 1)), sg.InputText('', key='codigo')],
               [sg.Cancel('<< Retornar <<', button_color='#500000'), sg.Submit('Cadastrar', button_color='#008000')]
               ]
